@@ -1,0 +1,29 @@
+services:
+  _defaults:
+    public: true
+
+    oksydan.is_favoriteproducts.module:
+      class: Is_favoriteproducts
+      factory: [ 'Module', 'getInstanceByName' ]
+      public: false
+      arguments:
+        - 'is_favoriteproducts'
+
+    Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository:
+      class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository
+      public: true
+      factory: ['@doctrine.orm.default_entity_manager', getRepository]
+      arguments:
+        - Oksydan\IsFavoriteproducts\Entity\FavoriteProduct
+
+    Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository:
+      class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository
+      public: true
+
+    Oksydan\IsFavoriteProducts\Services\FavoriteProductService:
+      class: Oksydan\IsFavoriteProducts\Services\FavoriteProductService
+      public: true
+      arguments:
+        - '@prestashop.adapter.legacy.context'
+        - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository'
+        - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository'
