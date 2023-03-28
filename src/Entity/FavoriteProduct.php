@@ -121,12 +121,12 @@ class FavoriteProduct
         return $this;
     }
 
-    public function getDateAdd(): \DateTime
+    public function getDateAdd(): \DateTimeImmutable
     {
         return $this->date_add;
     }
 
-    public function setDateAdd(\DateTime $date_add): self
+    public function setDateAdd(\DateTimeImmutable $date_add): self
     {
         $this->date_add = $date_add;
 
