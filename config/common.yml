@@ -27,3 +27,26 @@ services:
         - '@prestashop.adapter.legacy.context'
         - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository'
         - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository'
+
+    Oksydan\IsFavoriteProducts\Hook\AbstractHook:
+      class: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+      public: true
+      arguments:
+        - '@prestashop.adapter.legacy.context'
+        - '@oksydan.is_favoriteproducts.module'
+        - '@Oksydan\IsFavoriteProducts\Services\FavoriteProductService'
+
+    Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook:
+      class: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+      parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+      public: true
+
+    Oksydan\IsFavoriteProducts\Hook\DisplayTop:
+      class: Oksydan\IsFavoriteProducts\Hook\DisplayTop
+      parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+      public: true
+
+    Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia:
+      class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
+      parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+      public: true
