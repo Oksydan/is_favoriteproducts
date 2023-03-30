@@ -6,6 +6,7 @@ namespace Oksydan\IsFavoriteProducts\Repository;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
 
 class FavoriteProductCookieRepository
@@ -52,7 +53,7 @@ class FavoriteProductCookieRepository
             $product = new FavoriteProduct();
             $product->setIdProduct($cookieProductRaw['id_product']);
             $product->setIdProductAttribute($cookieProductRaw['id_product_attribute']);
-            $product->setDateAdd(new \DateTimeImmutable::createFromFormat(self::DATE_FORMAT, $cookieProductRaw['date_add']));
+            $product->setDateAdd(\DateTimeImmutable::createFromFormat(self::DATE_FORMAT, $cookieProductRaw['date_add']));
             $product->setIdShop($idShop);
 
             $products[] = $product;

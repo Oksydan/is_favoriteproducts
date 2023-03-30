@@ -50,7 +50,7 @@ class FavoriteProduct
     private $id_shop;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeImmutable
      *
      * @ORM\Column(name="date_add", type="datetime_immutable")
      */

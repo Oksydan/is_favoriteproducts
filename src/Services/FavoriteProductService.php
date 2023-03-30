@@ -6,7 +6,7 @@ namespace Oksydan\IsFavoriteProducts\Services;
 
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
-use Oksydan\IsFavortieProducts\Repository\ProductRepository;
+use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Context;

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Oksydan\IsFavortieProducts\Repository;
+namespace Oksydan\IsFavoriteProducts\Repository;
 
 use Doctrine\DBAL\Connection;
-
 
 class ProductRepository
 {

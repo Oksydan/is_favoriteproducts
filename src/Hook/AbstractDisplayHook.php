@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
-use Context;
-use Module;
-
 abstract class AbstractDisplayHook extends AbstractHook
 {
     public function execute(array $params): string

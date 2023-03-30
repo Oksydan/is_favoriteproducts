@@ -2,51 +2,49 @@ services:
   _defaults:
     public: true
 
-    oksydan.is_favoriteproducts.module:
-      class: Is_favoriteproducts
-      factory: [ 'Module', 'getInstanceByName' ]
-      public: false
-      arguments:
-        - 'is_favoriteproducts'
+  oksydan.is_favoriteproducts.module:
+    class: Is_favoriteproducts
+    factory: [ 'Module', 'getInstanceByName' ]
+    public: false
+    arguments:
+      - 'is_favoriteproducts'
 
-    Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository:
-      class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository
-      public: true
-      factory: ['@doctrine.orm.default_entity_manager', getRepository]
-      arguments:
-        - Oksydan\IsFavoriteproducts\Entity\FavoriteProduct
+  Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository:
+    class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository
+    public: true
+    factory: ['@doctrine.orm.default_entity_manager', getRepository]
+    arguments:
+      - Oksydan\IsFavoriteProducts\Entity\FavoriteProduct
 
-    Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository:
-      class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository
-      public: true
+  Oksydan\IsFavoriteProducts\Repository\ProductRepository:
+    class: Oksydan\IsFavoriteProducts\Repository\ProductRepository
+    public: true
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
 
-    Oksydan\IsFavoriteProducts\Services\FavoriteProductService:
-      class: Oksydan\IsFavoriteProducts\Services\FavoriteProductService
-      public: true
-      arguments:
-        - '@prestashop.adapter.legacy.context'
-        - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository'
-        - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository'
+  Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository:
+    class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository
+    public: true
 
-    Oksydan\IsFavoriteProducts\Hook\AbstractHook:
-      class: Oksydan\IsFavoriteProducts\Hook\AbstractHook
-      public: true
-      arguments:
-        - '@prestashop.adapter.legacy.context'
-        - '@oksydan.is_favoriteproducts.module'
-        - '@Oksydan\IsFavoriteProducts\Services\FavoriteProductService'
+  Oksydan\IsFavoriteProducts\Services\FavoriteProductService:
+    class: Oksydan\IsFavoriteProducts\Services\FavoriteProductService
+    public: true
+    arguments:
+      - "@=service('prestashop.adapter.legacy.context').getContext()"
+      - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository'
+      - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository'
+      - '@Oksydan\IsFavoriteProducts\Repository\ProductRepository'
 
-    Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook:
-      class: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
-      parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
-      public: true
+  Oksydan\IsFavoriteProducts\Hook\AbstractHook:
+    class: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+    public: true
+    arguments:
+      - '@oksydan.is_favoriteproducts.module'
+      - "@=service('prestashop.adapter.legacy.context').getContext()"
+      - '@Oksydan\IsFavoriteProducts\Services\FavoriteProductService'
 
-    Oksydan\IsFavoriteProducts\Hook\DisplayTop:
-      class: Oksydan\IsFavoriteProducts\Hook\DisplayTop
-      parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
-      public: true
-
-    Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia:
-      class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
-      parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
-      public: true
+  Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook:
+    class: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+    public: true

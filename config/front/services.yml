@@ -1,0 +1,16 @@
+imports:
+  - { resource: ../common.yml }
+
+services:
+  _defaults:
+    public: true
+
+  Oksydan\IsFavoriteProducts\Hook\DisplayTop:
+    class: Oksydan\IsFavoriteProducts\Hook\DisplayTop
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+    public: true
+
+  Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia:
+    class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+    public: true

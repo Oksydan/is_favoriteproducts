@@ -8,10 +8,11 @@ if (!defined('_PS_VERSION_')) {
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
+} else {
+    throw new \Exception('You must run "composer install --no-dev" command in module directory');
 }
 
-use Oksydan\IsImageslider\Hook\HookInterface;
-use Oksydan\IsImageslider\Installer\ImageSliderInstaller;
+use Oksydan\IsFavoriteProducts\Hook\HookInterface;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -43,7 +44,7 @@ class Is_favoriteproducts extends Module
         return
             parent::install()
             && $this->registerHook('displayTop')
-            && $this->getInstaller()->createTables();
+            && $this->registerHook('actionFrontControllerSetMedia');
     }
 
     /**
@@ -51,7 +52,7 @@ class Is_favoriteproducts extends Module
      */
     public function uninstall(): bool
     {
-        return $this->getInstaller()->dropTables() && parent::uninstall();
+        return parent::uninstall();
     }
 
     public function getContent(): void
@@ -75,36 +76,11 @@ class Is_favoriteproducts extends Module
         }
     }
 
-    /**
-     * @return ImageSliderInstaller
-     */
-    private function getInstaller(): ImageSliderInstaller
-    {
-        try {
-            $installer = $this->getService('oksydan.is_favoriteproducts.image_slider_installer');
-        } catch (Error $error){
-            $installer = null;
-        }
-
-        if (null === $installer) {
-            $installer = new Oksydan\IsFavoriteProducts\Installer(
-                $this->getService('doctrine.dbal.default_connection'),
-                $this->context
-            );
-        }
-
-        return $installer;
-    }
-
     /** @param string $methodName */
     public function __call($methodName, array $arguments)
     {
-        if (str_starts_with($methodName, 'hook')) {
-            if ($hook = $this->getHookObject($methodName)) {
-                return $hook->execute(...$arguments);
-            }
-        } else if (method_exists($this, $methodName)) {
-            return $this->{$methodName}(...$arguments);
+        if (str_starts_with($methodName, 'hook') && $hook = $this->getHookObject($methodName)) {
+            return $hook->execute(...$arguments);
         } else {
             return null;
         }
@@ -118,8 +94,8 @@ class Is_favoriteproducts extends Module
     private function getHookObject($methodName)
     {
         $serviceName = sprintf(
-            'oksydan.is_favoriteproducts.hook.%s',
-            \Tools::toUnderscoreCase(str_replace('hook', '', $methodName))
+            'Oksydan\IsFavoriteProducts\Hook\%s',
+            ucwords(str_replace('hook', '', $methodName))
         );
 
         $hook = $this->getService($serviceName);
