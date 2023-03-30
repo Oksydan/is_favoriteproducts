@@ -10,10 +10,12 @@ class ActionFrontControllerSetMedia extends AbstractHook
     {
         \Media::addJsDef([
             'addToFavoriteAction' => $this->context->link->getModuleLink($this->module->name, 'ajax', [
-                'action' => 'addToFavorite',
+                'action' => 'addFavoriteProduct',
+                'ajax' => '1',
             ]),
             'removeFromFavoriteAction' => $this->context->link->getModuleLink($this->module->name, 'ajax', [
-                'action' => 'removeFromFavorite',
+                'action' => 'removeFavoriteProduct',
+                'ajax' => '1',
             ]),
             'favoriteProducts' => $this->favoriteProductService->getFavoriteProducts(),
         ]);

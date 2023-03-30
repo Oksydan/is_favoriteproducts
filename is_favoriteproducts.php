@@ -44,7 +44,8 @@ class Is_favoriteproducts extends Module
         return
             parent::install()
             && $this->registerHook('displayTop')
-            && $this->registerHook('actionFrontControllerSetMedia');
+            && $this->registerHook('actionFrontControllerSetMedia')
+            && $this->registerHook('displayProductListReviews');
     }
 
     /**

@@ -41,6 +41,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         $favoriteProduct->setIdProduct($idProduct);
         $favoriteProduct->setIdProductAttribute($idProductAttribute);
         $favoriteProduct->setIdShop($this->context->shop->id);
+        $favoriteProduct->setDateAdd(new \DateTimeImmutable());
 
         if ($this->context->customer->isLogged()) {
             $favoriteProduct->setIdCustomer($this->context->customer->id);
