@@ -27,7 +27,7 @@ class FavoriteProductCookieRepository
 
     public function __construct()
     {
-        $this->request = new Request();
+        $this->request = Request::createFromGlobals();
         $this->response = new Response();
     }
 
@@ -97,17 +97,24 @@ class FavoriteProductCookieRepository
         }
 
         $this->response->headers->setCookie(new Cookie(self::COOKIE_NAME, json_encode($cookieProducts)));
-        $this->sendResponse();
+        $this->response->sendHeaders();
+    }
+
+    public function isProductAlreadyInFavorites(int $idProduct, int $idProductAttribute, int $idShop): bool
+    {
+        $favoriteProducts = $this->getFavoriteProducts($idShop);
+
+        foreach ($favoriteProducts as $favoriteProduct) {
+            if ($favoriteProduct->getIdProduct() === $idProduct && $favoriteProduct->getIdProductAttribute() === $idProductAttribute) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function clearFavoriteProducts(): void
     {
         $this->response->headers->clearCookie(self::COOKIE_NAME);
-        $this->sendResponse();
-    }
-
-    private function sendResponse(): void
-    {
-        $this->response->send();
     }
 }

@@ -22,7 +22,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
     {
         $idProduct = (int) Tools::getValue('id_product', 0);
         $idProductAttribute = (int) Tools::getValue('id_product_attribute', 0);
-        $exists = $this->getFavoriteProductService()->isProductExistsInStore($idProduct, $idProductAttribute, $this->context->shop->id);
+        $exists = $this->getFavoriteProductService()->productExists($idProduct, $idProductAttribute, $this->context->shop->id);
 
         if (!$exists) {
             $this->errors[] = $this->module->getTranslator()->trans('Product does not exist in store', [], 'Modules.IsFavoriteProducts.Front');
@@ -50,19 +50,56 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         return $favoriteProduct;
     }
 
+    private function checkIfProductIsAlreadyInFavorites(): bool
+    {
+        $service = $this->getFavoriteProductService();
+
+
+    }
+
     public function displayAjaxAddFavoriteProduct(): void
     {
-        if ($this->checkProductExistence()) {
-            $this->getFavoriteProductService()->addFavoriteProduct($this->createFavoriteProductDto());
+        if (!$this->checkProductExistence()) {
+            return;
+        }
+
+        $favoriteProduct = $this->createFavoriteProductDto();
+
+
+        if (empty($this->errors) && $this->getFavoriteProductService()->isProductAlreadyInFavorites($favoriteProduct)) {
+            $this->errors[] = $this->module->getTranslator()->trans('Product already exists in your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+        }
+
+        if (empty($this->errors)) {
+            try {
+                $this->getFavoriteProductService()->addFavoriteProduct($favoriteProduct);
+            } catch (Exception $e) {
+                $this->errors[] = $e->getMessage();
+            }
         }
 
         $this->renderResponse();
     }
 
+
     public function displayAjaxRemoveFavoriteProduct(): void
     {
-        if ($this->checkProductExistence()) {
-            $this->getFavoriteProductService()->removeFavoriteProduct($this->createFavoriteProductDto());
+        if (!$this->checkProductExistence()) {
+            return;
+        }
+
+        $favoriteProduct = $this->createFavoriteProductDto();
+
+        if (empty($this->errors) && !$this->getFavoriteProductService()->isProductAlreadyInFavorites($favoriteProduct)) {
+            $this->errors[] = $this->module->getTranslator()->trans('Product don\'t exists in your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+        }
+
+        if (empty($this->errors)) {
+            try {
+                $this->getFavoriteProductService()->removeFavoriteProduct($favoriteProduct);
+            } catch (Exception $e) {
+                $this->errors[] = $e->getMessage();
+            }
         }
 
         $this->renderResponse();
@@ -70,9 +107,14 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
 
     private function renderResponse(): void
     {
+        ob_end_clean();
+        header('Content-Type: application/json');
+
         $this->ajaxRender(json_encode([
             'success' => empty($this->errors),
             'messages' => empty($this->errors)? $this->message : $this->errors,
         ]));
+
+        die();
     }
 }

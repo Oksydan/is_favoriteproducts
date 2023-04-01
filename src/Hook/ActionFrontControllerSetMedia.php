@@ -4,8 +4,27 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
+use Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter;
+use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
+use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
+use Context;
+use Is_favoriteproducts;
+
 class ActionFrontControllerSetMedia extends AbstractHook
 {
+    private FavoriteProductJsonPresenter $productPresenter;
+
+    public function __construct(
+        Is_favoriteproducts $module,
+        Context $context,
+        FavoriteProductService $favoriteProductService,
+        FavoriteProductJsonPresenter $productPresenter
+    )
+    {
+        parent::__construct($module, $context, $favoriteProductService);
+        $this->productPresenter = $productPresenter;
+    }
+
     public function execute(array $params): void
     {
         \Media::addJsDef([
@@ -17,7 +36,14 @@ class ActionFrontControllerSetMedia extends AbstractHook
                 'action' => 'removeFavoriteProduct',
                 'ajax' => '1',
             ]),
-            'favoriteProducts' => $this->favoriteProductService->getFavoriteProducts(),
+            'favoriteProducts' => $this->getFavoriteProductsJsonData(),
         ]);
+    }
+
+    private function getFavoriteProductsJsonData(): array
+    {
+        return array_map(function (FavoriteProduct $product) {
+            return $this->productPresenter->present($product);
+        }, $this->favoriteProductService->getFavoriteProducts());
     }
 }

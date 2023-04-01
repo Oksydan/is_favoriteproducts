@@ -97,7 +97,25 @@ class FavoriteProductService
         }
     }
 
-    public function isProductExistsInStore(int $idProduct, $idProductAttribute, $idStore): bool
+    public function isProductAlreadyInFavorites(FavoriteProductDTO $favoriteProduct): bool
+    {
+        if ($this->isCustomerLogged()) {
+            return $this->favoriteProductsRepository->isProductAlreadyInFavorites(
+                $favoriteProduct->getIdProduct(),
+                $favoriteProduct->getIdProductAttribute(),
+                $favoriteProduct->getIdCustomer(),
+                $favoriteProduct->getIdShop()
+            );
+        }
+
+        return $this->favoriteProductsCookieRepository->isProductAlreadyInFavorites(
+            $favoriteProduct->getIdProduct(),
+            $favoriteProduct->getIdProductAttribute(),
+            $favoriteProduct->getIdShop()
+        );
+    }
+
+    public function productExists(int $idProduct, $idProductAttribute, $idStore): bool
     {
         return $this->productRepository->isProductExistsInStore($idProduct, $idProductAttribute, $idStore);
     }

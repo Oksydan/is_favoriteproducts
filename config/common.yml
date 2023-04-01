@@ -27,6 +27,10 @@ services:
     class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository
     public: true
 
+  Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter:
+    class: Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter
+    public: true
+
   Oksydan\IsFavoriteProducts\Services\FavoriteProductService:
     class: Oksydan\IsFavoriteProducts\Services\FavoriteProductService
     public: true

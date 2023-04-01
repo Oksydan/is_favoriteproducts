@@ -19,3 +19,5 @@ services:
     class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
     parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
     public: true
+    arguments:
+      - '@Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter'
