@@ -18,10 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const handleMessage = (messages, type = 'success') => {
+        console.log({
+            messages, type
+        });
+    }
+
     document.addEventListener('click', async (event) => {
-        if (event.target.matches('[data-action="toggleFavorite"]')) {
-            const { idProduct, idProductAttribute } = getProductIdsFromKey(event.target.dataset.key);
-            const { success, message } = await addToFavorite(idProduct, idProductAttribute);
+        const btn = event.target.matches('[data-action="toggleFavorite"]') ? event.target : event.target.closest('[data-action="toggleFavorite"]');
+
+        if (btn) {
+            event.preventDefault();
+            const { idProduct, idProductAttribute } = getProductIdsFromKey(btn.dataset.key);
+            const isAdded = btn.dataset.active === 'true';
+
+            if (isAdded) {
+                const { success, messages } = await removeFromFavorite(idProduct, idProductAttribute);
+
+                handleMessage(messages, success ? 'success' : 'error');
+            } else {
+                const { success, messages } = await addToFavorite(idProduct, idProductAttribute);
+
+                handleMessage(messages, success ? 'success' : 'error');
+            }
         }
     }, false);
 })

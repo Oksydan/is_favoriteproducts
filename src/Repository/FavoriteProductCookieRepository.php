@@ -100,15 +100,22 @@ class FavoriteProductCookieRepository
         $this->response->sendHeaders();
     }
 
-    public function isProductAlreadyInFavorites(int $idProduct, int $idProductAttribute, int $idShop): bool
+    public function isProductAlreadyInFavorites(FavoriteProduct $favoriteProductToCheck): bool
     {
-        $favoriteProducts = $this->getFavoriteProducts($idShop);
+        $favoriteProducts = $this->getFavoriteProducts($favoriteProductToCheck->getIdShop());
+
+        if (empty($favoriteProducts)) {
+            return false;
+        }
 
         foreach ($favoriteProducts as $favoriteProduct) {
-            if ($favoriteProduct->getIdProduct() === $idProduct && $favoriteProduct->getIdProductAttribute() === $idProductAttribute) {
+            if ($favoriteProduct->getIdProduct() === $favoriteProductToCheck->getIdProduct() &&
+                $favoriteProduct->getIdProductAttribute() === $favoriteProductToCheck->getIdProductAttribute()) {
+
                 return true;
             }
         }
+
 
         return false;
     }

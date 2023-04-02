@@ -108,11 +108,7 @@ class FavoriteProductService
             );
         }
 
-        return $this->favoriteProductsCookieRepository->isProductAlreadyInFavorites(
-            $favoriteProduct->getIdProduct(),
-            $favoriteProduct->getIdProductAttribute(),
-            $favoriteProduct->getIdShop()
-        );
+        return $this->favoriteProductsCookieRepository->isProductAlreadyInFavorites($favoriteProduct);
     }
 
     public function productExists(int $idProduct, $idProductAttribute, $idStore): bool

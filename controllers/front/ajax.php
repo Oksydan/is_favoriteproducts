@@ -7,15 +7,15 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
 {
     private $message = [];
 
-    private $favotireProductService;
+    private $favoriteProductService;
 
     private function getFavoriteProductService(): FavoriteProductService
     {
-        if ($this->favotireProductService instanceof FavoriteProductService === false) {
-            $this->favotireProductService = $this->get(FavoriteProductService::class);
+        if ($this->favoriteProductService instanceof FavoriteProductService === false) {
+            $this->favoriteProductService = $this->get(FavoriteProductService::class);
         }
 
-        return $this->favotireProductService;
+        return $this->favoriteProductService;
     }
 
     private function checkProductExistence(): bool
@@ -50,21 +50,11 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         return $favoriteProduct;
     }
 
-    private function checkIfProductIsAlreadyInFavorites(): bool
-    {
-        $service = $this->getFavoriteProductService();
-
-
-    }
-
     public function displayAjaxAddFavoriteProduct(): void
     {
-        if (!$this->checkProductExistence()) {
-            return;
-        }
+        $this->checkProductExistence();
 
         $favoriteProduct = $this->createFavoriteProductDto();
-
 
         if (empty($this->errors) && $this->getFavoriteProductService()->isProductAlreadyInFavorites($favoriteProduct)) {
             $this->errors[] = $this->module->getTranslator()->trans('Product already exists in your favorite list', [], 'Modules.IsFavoriteProducts.Front');
@@ -78,15 +68,17 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
             }
         }
 
+        if (empty($this->errors)) {
+            $this->message[] = $this->module->getTranslator()->trans('Product added to your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+        }
+
         $this->renderResponse();
     }
 
 
     public function displayAjaxRemoveFavoriteProduct(): void
     {
-        if (!$this->checkProductExistence()) {
-            return;
-        }
+        $this->checkProductExistence();
 
         $favoriteProduct = $this->createFavoriteProductDto();
 
@@ -100,6 +92,10 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
             } catch (Exception $e) {
                 $this->errors[] = $e->getMessage();
             }
+        }
+
+        if (empty($this->errors)) {
+            $this->message[] = $this->module->getTranslator()->trans('Product removed from your favorite list', [], 'Modules.IsFavoriteProducts.Front');
         }
 
         $this->renderResponse();
