@@ -8,5 +8,10 @@
         data-key="{$product.id}_{$product.id_product_attribute}"
     {/if}
 >
-    <span class="material-icons product-miniature__functional-btn-icon">favorite</span>
+    <div class="favorite-btn__content favorite-btn__content--added">
+        <span class="material-icons product-miniature__functional-btn-icon d-block">favorite</span>
+    </div>
+    <div class="favorite-btn__content favorite-btn__content--add">
+        <span class="material-icons product-miniature__functional-btn-icon d-block">favorite_border</span>
+    </div>
 </a>

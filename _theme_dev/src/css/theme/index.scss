@@ -1,10 +1,32 @@
 @import "@themeAbstract/index";
 
 .favorite-btn {
+  $self: &;
+
   &[data-active="true"]:hover,
   &[data-active="true"]:focus,
   &[data-active="true"]:active,
   &[data-active="true"] {
     color: $primary;
+  }
+
+  &[data-active="true"] {
+    #{$self} {
+      &__content {
+        &--add {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &[data-active="false"] {
+    #{$self} {
+      &__content {
+        &--added {
+          display: none;
+        }
+      }
+    }
   }
 }

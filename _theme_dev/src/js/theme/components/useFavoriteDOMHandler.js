@@ -30,7 +30,7 @@ export const useFavoriteDOMHandler = (buttonsSelector = '[data-action="toggleFav
             btn.dataset[activeDataAttribute] = false;
         });
 
-        getFavoriteProducts().forEach(({ product_key }) => {
+        getFavoriteProducts().forEach((product_key) => {
             const allButtons = getAllButtonsByProductKey(product_key);
 
             allButtons.forEach((btn) => {

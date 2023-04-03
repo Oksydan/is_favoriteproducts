@@ -8,5 +8,5 @@ use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
 
 interface PresenterInterface
 {
-    public function present(FavoriteProduct $favoriteProduct): array;
+    public function present(FavoriteProduct $favoriteProduct);
 }

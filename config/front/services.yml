@@ -15,6 +15,11 @@ services:
     parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
     public: true
 
+  Oksydan\IsFavoriteProducts\Hook\DisplayProductActions:
+    class: Oksydan\IsFavoriteProducts\Hook\DisplayProductActions
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+    public: true
+
   Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia:
     class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
     parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
