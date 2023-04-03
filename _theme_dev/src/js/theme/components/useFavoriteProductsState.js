@@ -1,5 +1,10 @@
+let favoriteProducts = [];
+
 export const useFavoriteProductsState = (initialValue = []) => {
-    let favoriteProducts = initialValue && Array.isArray(initialValue) ? initialValue : [];
+    if (initialValue && Array.isArray(initialValue) && initialValue.length > 0) {
+        favoriteProducts = initialValue;
+    }
+
     const getFavoriteProducts = () => favoriteProducts;
 
     const setFavoriteProducts = (products) => {

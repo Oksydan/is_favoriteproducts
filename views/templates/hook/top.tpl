@@ -1,4 +1,4 @@
-<div class="col flex-grow-0 header-top__block header-top__block--favorite">
+<div class="col flex-grow-0 header-top__block header-top__block--favorite js-favorite-top-content">
     <a
         class="header-top__link"
         rel="nofollow"

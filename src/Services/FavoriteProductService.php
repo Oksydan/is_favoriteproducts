@@ -33,6 +33,8 @@ class FavoriteProductService
      */
     private ProductRepository $productRepository;
 
+    protected $cachedFavoriteProducts = null;
+
     public function __construct(
         Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
@@ -52,14 +54,20 @@ class FavoriteProductService
 
     public function getFavoriteProducts(): array
     {
+        if (!is_null($this->cachedFavoriteProducts)) {
+            return $this->cachedFavoriteProducts;
+        }
+
         if ($this->isCustomerLogged()) {
-            return $this->favoriteProductsRepository->getFavoriteProductsByCustomer(
+            $this->cachedFavoriteProducts = $this->favoriteProductsRepository->getFavoriteProductsByCustomer(
                 (int) $this->context->customer->id,
                 (int) $this->context->shop->id
             );
+        } else {
+            $this->cachedFavoriteProducts = $this->favoriteProductsCookieRepository->getFavoriteProducts((int) $this->context->shop->id);
         }
 
-        return $this->favoriteProductsCookieRepository->getFavoriteProducts((int) $this->context->shop->id);
+        return $this->cachedFavoriteProducts;
     }
 
     public function addFavoriteProduct(FavoriteProductDTO $favoriteProduct): void
@@ -75,6 +83,8 @@ class FavoriteProductService
         } else {
             $this->favoriteProductsCookieRepository->addFavoriteProduct($favoriteProduct);
         }
+
+        $this->cachedFavoriteProducts = null;
     }
 
     public function removeFavoriteProduct(FavoriteProductDTO $favoriteProduct): void
@@ -95,6 +105,8 @@ class FavoriteProductService
         } else {
             $this->favoriteProductsCookieRepository->removeFavoriteProduct($favoriteProduct);
         }
+
+        $this->cachedFavoriteProducts = null;
     }
 
     public function isProductAlreadyInFavorites(FavoriteProductDTO $favoriteProduct): bool

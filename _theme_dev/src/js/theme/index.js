@@ -1,4 +1,5 @@
-import { useFavoriteProducts} from "./components/useFavoriteProducts";
+import { useFavoriteProducts } from "./components/useFavoriteProducts";
+import { useFavoriteDOMHandler } from "./components/useFavoriteDOMHandler";
 
 document.addEventListener('DOMContentLoaded', () => {
     const {
@@ -6,22 +7,28 @@ document.addEventListener('DOMContentLoaded', () => {
         addToFavorite,
         removeFromFavorite,
     } = useFavoriteProducts();
-
-    const favoriteProducts = getFavoriteProducts();
-    console.log(favoriteProducts);
-
-    const getProductIdsFromKey = (key) => {
-        const [idProduct, idProductAttribute] = key.split('_');
-        return {
-            idProduct: parseInt(idProduct, 10),
-            idProductAttribute: parseInt(idProductAttribute, 10),
-        }
-    }
+    const {
+        getProductIdsFromKey,
+        refreshButtons,
+        setBtnActive,
+        setBtnInactive,
+    } = useFavoriteDOMHandler();
 
     const handleMessage = (messages, type = 'success') => {
         console.log({
             messages, type
         });
+    }
+
+    const updateTopContent = (topContent) => {
+        const topContentContainer = document.querySelector('.js-favorite-top-content');
+
+        if (topContentContainer) {
+            const node = document.createElement('div');
+            node.innerHTML = topContent;
+
+            topContentContainer.replaceWith(...node.children);
+        }
     }
 
     document.addEventListener('click', async (event) => {
@@ -33,14 +40,33 @@ document.addEventListener('DOMContentLoaded', () => {
             const isAdded = btn.dataset.active === 'true';
 
             if (isAdded) {
-                const { success, messages } = await removeFromFavorite(idProduct, idProductAttribute);
+                const { success, messages, topContent } = await removeFromFavorite(idProduct, idProductAttribute);
 
                 handleMessage(messages, success ? 'success' : 'error');
+
+                if (success) {
+                    setBtnInactive(btn);
+                    updateTopContent(topContent);
+                }
             } else {
-                const { success, messages } = await addToFavorite(idProduct, idProductAttribute);
+                const { success, messages, topContent } = await addToFavorite(idProduct, idProductAttribute);
 
                 handleMessage(messages, success ? 'success' : 'error');
+
+                if (success) {
+                    setBtnActive(btn);
+                    updateTopContent(topContent);
+                }
             }
         }
     }, false);
+
+    refreshButtons();
+
+    prestashop.on('updatedProduct', () => {
+        setTimeout(refreshButtons, 1);
+    });
+    prestashop.on('updatedProductList', () => {
+        setTimeout(refreshButtons, 1);
+    });
 })

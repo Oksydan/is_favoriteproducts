@@ -1,2 +1,10 @@
 @import "@themeAbstract/index";
 
+.favorite-btn {
+  &[data-active="true"]:hover,
+  &[data-active="true"]:focus,
+  &[data-active="true"]:active,
+  &[data-active="true"] {
+    color: $primary;
+  }
+}
