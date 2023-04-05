@@ -1,9 +1,9 @@
 import { useFavoriteProducts } from "./components/useFavoriteProducts";
 import { useFavoriteDOMHandler } from "./components/useFavoriteDOMHandler";
+import { useAlertToast } from "@js/theme/components/useAlertToast";
 
 document.addEventListener('DOMContentLoaded', () => {
     const {
-        getFavoriteProducts,
         addToFavorite,
         removeFromFavorite,
     } = useFavoriteProducts();
@@ -13,11 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
         setBtnActive,
         setBtnInactive,
     } = useFavoriteDOMHandler();
+    const {
+        info,
+        danger,
+    } = useAlertToast();
 
     const handleMessage = (messages, type = 'success') => {
-        console.log({
-            messages, type
-        });
+        if (type === 'success') {
+            info(messages);
+        } else {
+            danger(messages);
+        }
     }
 
     const updateTopContent = (topContent) => {
