@@ -37,6 +37,7 @@ class ActionFrontControllerSetMedia extends AbstractHook
                 'ajax' => '1',
             ]),
             'favoriteProducts' => $this->getFavoriteProductsJsonData(),
+            'isFavoriteProductsListingPage' => $this->context->controller instanceof \Is_favoriteproductsFavoriteModuleFrontController
         ]);
     }
 

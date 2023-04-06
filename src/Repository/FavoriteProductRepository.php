@@ -9,35 +9,11 @@ use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 
 class FavoriteProductRepository extends EntityRepository
 {
+    private string $databasePrefix = _DB_PREFIX_;
 
     public function getFavoriteProductsByCustomer(int $id_customer, int $id_shop): array
     {
-        $qb = $this->createQueryBuilder('fp');
-
-        $qb
-            ->select('fp.id_product', 'fp.id_product_attribute')
-            ->where('fp.id_customer = :id_customer')
-            ->andWhere('fp.id_shop = :id_shop')
-            ->setParameter('id_customer', $id_customer)
-            ->setParameter('id_shop', $id_shop)
-        ;
-
-        return $qb->getQuery()->getArrayResult();
-    }
-
-    public function getLatestAddedProductForShop(\DateTimeImmutable $date_add, int $id_shop): array
-    {
-        $qb = $this->createQueryBuilder('fp');
-
-        $qb
-            ->select('fp.id_product', 'fp.id_product_attribute')
-            ->where('fp.date_add > :date_add')
-            ->setParameter('date_add', $date_add)
-            ->andWhere('fp.id_shop = :id_shop')
-            ->setParameter('id_shop', $id_shop)
-        ;
-
-        return $qb->getQuery()->getArrayResult();
+        return $this->findBy(['id_customer' => $id_customer, 'id_shop' => $id_shop]);
     }
 
     public function addFavoriteProduct(FavoriteProduct $favoriteProduct): void

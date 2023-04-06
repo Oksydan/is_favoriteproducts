@@ -2,7 +2,7 @@
     <a
         class="header-top__link"
         rel="nofollow"
-        href="#"
+        href="{$favoritePageUrl}"
     >
         <div class="header-top__icon-container">
             <span class="header-top__icon material-icons">favorite</span>

@@ -10,6 +10,7 @@ use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Context;
+use Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper;
 
 class FavoriteProductService
 {
@@ -33,18 +34,22 @@ class FavoriteProductService
      */
     private ProductRepository $productRepository;
 
+    private FavoriteProductMapper $favoriteProductMapper;
+
     protected $cachedFavoriteProducts = null;
 
     public function __construct(
         Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        FavoriteProductMapper $favoriteProductMapper
     ) {
         $this->context = $context;
         $this->favoriteProductsRepository = $favoriteProductsRepository;
         $this->favoriteProductsCookieRepository = $favoriteProductsCookieRepository;
         $this->productRepository = $productRepository;
+        $this->favoriteProductMapper = $favoriteProductMapper;
     }
 
     public function isCustomerLogged(): bool
@@ -59,15 +64,84 @@ class FavoriteProductService
         }
 
         if ($this->isCustomerLogged()) {
-            $this->cachedFavoriteProducts = $this->favoriteProductsRepository->getFavoriteProductsByCustomer(
+            $favoriteProducts = $this->favoriteProductsRepository->getFavoriteProductsByCustomer(
                 (int) $this->context->customer->id,
                 (int) $this->context->shop->id
             );
+
+            $products = array_map(function (FavoriteProduct $favoriteProduct) {
+                return $this->favoriteProductMapper->mapFavoriteProductEntityToFavoriteProductDTO($favoriteProduct);
+            }, $favoriteProducts);
+
+            $this->cachedFavoriteProducts = $products;
         } else {
             $this->cachedFavoriteProducts = $this->favoriteProductsCookieRepository->getFavoriteProducts((int) $this->context->shop->id);
         }
 
         return $this->cachedFavoriteProducts;
+    }
+
+    public function getFavoriteProductForListing(int $page = 1, int $limit = 10, string $orderBy = 'date_add', string $orderWay = 'DESC'): array
+    {
+        if (!$this->isCustomerLogged()) {
+            $favoriteProducts = $this->getFavoriteProducts();
+
+            $count = count($favoriteProducts);
+
+            if ($count <= ($page - 1) * $limit) {
+                $page = 1 + (int) ($count / $limit);
+            }
+
+            $products = [];
+
+            foreach ($favoriteProducts as $favoriteProduct) {
+                $product['date_add'] = $favoriteProduct->getDateAdd();
+                $product['id_product'] = $favoriteProduct->getIdProduct();
+                $product['id_product_attribute'] = $favoriteProduct->getIdProductAttribute();
+
+                $products[] = $product;
+            }
+
+            if ($orderBy === 'date_add') {
+                if (strtoupper($orderWay) === 'DESC') {
+                    usort($products, function ($a, $b) {
+                        return $a['date_add'] < $b['date_add'];
+                    });
+                } else {
+                    usort($products, function ($a, $b) {
+                        return $a['date_add'] > $b['date_add'];
+                    });
+                }
+            }
+
+            $products = array_slice($products, ($page - 1) * $limit, $limit);
+
+            return [
+                'items' => $products,
+                'count' => $count,
+                'page' => $page,
+            ];
+        } else {
+            $favoriteProducts = $this->favoriteProductsRepository->getFavoriteProductsForListing(
+                (int) $this->context->customer->id,
+                (int) $this->context->shop->id,
+                (int) $this->context->language->id,
+                $page,
+                $limit,
+                $orderBy,
+                $orderWay
+            );
+
+            var_dump($favoriteProducts);
+            die();
+
+            return [
+                'items' => $products,
+                'count' => $count,
+                'page' => $page,
+            ];
+        }
+
     }
 
     public function addFavoriteProduct(FavoriteProductDTO $favoriteProduct): void
@@ -128,3 +202,4 @@ class FavoriteProductService
         return $this->productRepository->isProductExistsInStore($idProduct, $idProductAttribute, $idStore);
     }
 }
+

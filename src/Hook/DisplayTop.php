@@ -17,6 +17,7 @@ class DisplayTop extends AbstractDisplayHook
     {
         $this->context->smarty->assign([
             'favoriteProductsCount' => count($this->favoriteProductService->getFavoriteProducts()),
+            'favoritePageUrl' => $this->context->link->getModuleLink($this->module->name, 'favorite'),
         ]);
     }
 }
