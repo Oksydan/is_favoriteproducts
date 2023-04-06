@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         setBtnInactive,
     } = useFavoriteDOMHandler();
     const {
-        info,
+        success,
         danger,
     } = useAlertToast();
 
     const handleMessage = (messages, type = 'success') => {
         if (type === 'success') {
-            info(messages);
+            success(messages);
         } else {
             danger(messages);
         }
@@ -63,6 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     setBtnActive(btn);
                     updateTopContent(topContent);
                 }
+            }
+
+            if (window.isFavoriteProductsListingPage) {
+                prestashop.emit('updateFacets', window.location.href);
             }
         }
     }, false);

@@ -5,8 +5,6 @@ export const useFavoriteDOMHandler = (buttonsSelector = '[data-action="toggleFav
     const getButtons = () => document.querySelectorAll(buttonsSelector);
     const activeDataAttribute = 'active';
 
-    const isBtnActive = (btn) => btn.dataset[activeDataAttribute] === 'true';
-
     const setBtnActive = (btn) => {
         const key = btn.dataset.key;
         const allButtons = getAllButtonsByProductKey(key);
