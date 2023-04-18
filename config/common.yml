@@ -23,12 +23,30 @@ services:
       - '@doctrine.dbal.default_connection'
       - '%database_prefix%'
 
+  Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy:
+    class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy
+    public: true
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
+  Oksydan\IsFavoriteProducts\Repository\FavoriteProductLegacyRepository:
+    class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductLegacyRepository
+    public: true
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
   Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository:
     class: Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository
     public: true
 
   Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter:
     class: Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter
+    public: true
+
+  Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper:
+    class: Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper
     public: true
 
   Oksydan\IsFavoriteProducts\Services\FavoriteProductService:
@@ -39,6 +57,8 @@ services:
       - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository'
       - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository'
       - '@Oksydan\IsFavoriteProducts\Repository\ProductRepository'
+      - '@Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy'
+      - '@Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper'
 
   Oksydan\IsFavoriteProducts\Hook\AbstractHook:
     class: Oksydan\IsFavoriteProducts\Hook\AbstractHook
@@ -52,3 +72,11 @@ services:
     class: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
     parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
     public: true
+
+
+  Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider:
+    class: Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider
+    public: true
+    arguments:
+      - '@Oksydan\IsFavoriteProducts\Services\FavoriteProductService'
+      - "@=service('prestashop.adapter.legacy.context').getContext().getTranslator()"

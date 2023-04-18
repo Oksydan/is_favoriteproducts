@@ -32,6 +32,19 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         return $exists;
     }
 
+    private function checkLimit(): bool
+    {
+        $reached = $this->getFavoriteProductService()->isFavoriteLimitReached();
+
+        if ($reached) {
+            $this->errors[] = $this->module->getTranslator()->trans('You have reached limit of %number% products in your favorite list. Login or create an account to add more products.', [
+                '%number%' => $this->getFavoriteProductService()->getFavoriteLimit(),
+            ], 'Modules.IsFavoriteProducts.Front');
+        }
+
+        return $reached;
+    }
+
     private function createFavoriteProductDto(): FavoriteProductDTO
     {
         $idProduct = (int) Tools::getValue('id_product', 0);
@@ -54,6 +67,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
     public function displayAjaxAddFavoriteProduct(): void
     {
         $this->checkProductExistence();
+        $this->checkLimit();
 
         $favoriteProduct = $this->createFavoriteProductDto();
 

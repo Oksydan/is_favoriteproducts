@@ -7,6 +7,7 @@ namespace Oksydan\IsFavoriteProducts\Services;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
 use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Context;
@@ -25,6 +26,11 @@ class FavoriteProductService
     private FavoriteProductRepository $favoriteProductsRepository;
 
     /*
+     * @var FavoriteProductRepositoryLegacy
+     */
+    private FavoriteProductRepositoryLegacy $favoriteProductsRepositoryLegacy;
+
+    /*
      * @var FavoriteProductsCookieRepository
      */
     private FavoriteProductCookieRepository $favoriteProductsCookieRepository;
@@ -38,17 +44,21 @@ class FavoriteProductService
 
     protected $cachedFavoriteProducts = null;
 
+    const FAVORITE_LIMIT_FOR_GUEST = 20;
+
     public function __construct(
         Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
         ProductRepository $productRepository,
+        FavoriteProductRepositoryLegacy $favoriteProductsRepositoryLegacy,
         FavoriteProductMapper $favoriteProductMapper
     ) {
         $this->context = $context;
         $this->favoriteProductsRepository = $favoriteProductsRepository;
         $this->favoriteProductsCookieRepository = $favoriteProductsCookieRepository;
         $this->productRepository = $productRepository;
+        $this->favoriteProductsRepositoryLegacy = $favoriteProductsRepositoryLegacy;
         $this->favoriteProductMapper = $favoriteProductMapper;
     }
 
@@ -75,22 +85,42 @@ class FavoriteProductService
 
             $this->cachedFavoriteProducts = $products;
         } else {
-            $this->cachedFavoriteProducts = $this->favoriteProductsCookieRepository->getFavoriteProducts((int) $this->context->shop->id);
+            $products = $this->favoriteProductsCookieRepository->getFavoriteProducts((int) $this->context->shop->id);
+
+            $products = array_filter($products, function ($product) {
+                return $this->productRepository->checkProductActiveAndVisible(
+                    $product->getIdProduct(),
+                    $product->getIdProductAttribute(),
+                    (int) $this->context->shop->id
+                );
+            });
+
+            $this->cachedFavoriteProducts = $products;
         }
 
         return $this->cachedFavoriteProducts;
+    }
+
+    public function isFavoriteLimitReached(): bool
+    {
+        if ($this->isCustomerLogged()) {
+            return false;
+        } else {
+            $favoriteProducts = $this->getFavoriteProducts();
+
+            return count($favoriteProducts) >= self::FAVORITE_LIMIT_FOR_GUEST;
+        }
+    }
+
+    public function getFavoriteLimit(): int
+    {
+        return self::FAVORITE_LIMIT_FOR_GUEST;
     }
 
     public function getFavoriteProductForListing(int $page = 1, int $limit = 10, string $orderBy = 'date_add', string $orderWay = 'DESC'): array
     {
         if (!$this->isCustomerLogged()) {
             $favoriteProducts = $this->getFavoriteProducts();
-
-            $count = count($favoriteProducts);
-
-            if ($count <= ($page - 1) * $limit) {
-                $page = 1 + (int) ($count / $limit);
-            }
 
             $products = [];
 
@@ -100,6 +130,12 @@ class FavoriteProductService
                 $product['id_product_attribute'] = $favoriteProduct->getIdProductAttribute();
 
                 $products[] = $product;
+            }
+
+            $count = count($products);
+
+            if ($count <= ($page - 1) * $limit) {
+                $page = 1 + (int) ($count / $limit);
             }
 
             if ($orderBy === 'date_add') {
@@ -122,21 +158,22 @@ class FavoriteProductService
                 'page' => $page,
             ];
         } else {
-            $favoriteProducts = $this->favoriteProductsRepository->getFavoriteProductsForListing(
+            $favoriteProducts = $this->favoriteProductsRepositoryLegacy->getFavoriteProductsForListing(
                 (int) $this->context->customer->id,
                 (int) $this->context->shop->id,
-                (int) $this->context->language->id,
                 $page,
                 $limit,
                 $orderBy,
                 $orderWay
             );
 
-            var_dump($favoriteProducts);
-            die();
+            $count = $this->favoriteProductsRepositoryLegacy->getCountFavoriteProductsForListing(
+                (int) $this->context->customer->id,
+                (int) $this->context->shop->id
+            );
 
             return [
-                'items' => $products,
+                'items' => $favoriteProducts,
                 'count' => $count,
                 'page' => $page,
             ];

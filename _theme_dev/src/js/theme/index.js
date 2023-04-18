@@ -1,6 +1,6 @@
 import { useFavoriteProducts } from "./components/useFavoriteProducts";
 import { useFavoriteDOMHandler } from "./components/useFavoriteDOMHandler";
-import { useAlertToast } from "@js/theme/components/useAlertToast";
+import useAlertToast from "@js/theme/components/useAlertToast";
 
 document.addEventListener('DOMContentLoaded', () => {
     const {
