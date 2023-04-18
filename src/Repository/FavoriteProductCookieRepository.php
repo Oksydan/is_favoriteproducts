@@ -133,5 +133,7 @@ class FavoriteProductCookieRepository
     public function clearFavoriteProducts(): void
     {
         $this->response->headers->clearCookie(self::COOKIE_NAME);
+
+        $this->response->sendHeaders();
     }
 }

@@ -26,3 +26,8 @@ services:
     public: true
     arguments:
       - '@Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter'
+
+  Oksydan\IsFavoriteProducts\Hook\ActionAuthentication:
+    class: Oksydan\IsFavoriteProducts\Hook\ActionAuthentication
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+    public: true

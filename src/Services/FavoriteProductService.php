@@ -238,5 +238,22 @@ class FavoriteProductService
     {
         return $this->productRepository->isProductExistsInStore($idProduct, $idProductAttribute, $idStore);
     }
+
+    public function mergerGuestFavoriteProductsToCustomer(int $idCustomer, int $idShop): void
+    {
+        $favoriteProducts = $this->favoriteProductsCookieRepository->getFavoriteProducts($idShop);
+
+        foreach ($favoriteProducts as $favoriteProduct) {
+            $favoriteProduct->setIdCustomer($idCustomer);
+
+            if ($this->isProductAlreadyInFavorites($favoriteProduct)) {
+                continue;
+            }
+
+            $this->addFavoriteProduct($favoriteProduct);
+        }
+
+        $this->favoriteProductsCookieRepository->clearFavoriteProducts();
+    }
 }
 

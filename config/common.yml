@@ -73,7 +73,6 @@ services:
     parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
     public: true
 
-
   Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider:
     class: Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider
     public: true
