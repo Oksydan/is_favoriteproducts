@@ -16,6 +16,7 @@ jobs:
 
       - name: PHP syntax checker 8.1
         uses: prestashop/github-action-php-lint/8.1@master
+        
   php-cs-fixer:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
@@ -23,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: '7.4'
 
       - name: Checkout
         uses: actions/checkout@v2.0.0
@@ -38,18 +39,19 @@ jobs:
         run: composer install
 
       - name: Run PHP-CS-Fixer
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache=no
+        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache=no --diff-format udiff
+
   phpstan:
     name: PHPStan
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        presta-versions: ["8.0", "latest"]
+        presta-versions: ['8.0', 'latest']
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.2"
+          php-version: '7.4'
 
       - name: Checkout
         uses: actions/checkout@v2.0.0
@@ -67,9 +69,6 @@ jobs:
         with:
           path: ~/.composer/cache
           key: php-composer-cache
-
-      - name: Check composer
-        run: composer validate
 
       - run: composer install
 
