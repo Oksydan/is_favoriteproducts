@@ -15,7 +15,6 @@ node_modules/
 
 ### Tests ###
 .php-cs-fixer.cache
-.php-cs-fixer.dist.php
 .phpstan_bootstrap_config.php
 tests/.env
 
