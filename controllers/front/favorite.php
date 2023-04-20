@@ -1,8 +1,8 @@
 <?php
 
+use Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
-use Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider;
 
 class Is_favoriteproductsFavoriteModuleFrontController extends ProductListingFrontController
 {
@@ -44,7 +44,6 @@ class Is_favoriteproductsFavoriteModuleFrontController extends ProductListingFro
         }
     }
 
-
     protected function getProductSearchQuery(): ProductSearchQuery
     {
         return (new ProductSearchQuery())
@@ -55,7 +54,6 @@ class Is_favoriteproductsFavoriteModuleFrontController extends ProductListingFro
     {
         return $this->get(FavoriteProductsSearchProvider::class);
     }
-
 
     protected function getAjaxProductSearchVariables(): array
     {

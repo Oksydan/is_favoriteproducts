@@ -31,7 +31,6 @@ class FavoriteProduct
      */
     private $date_add;
 
-
     public function getIdProduct(): int
     {
         return $this->id_product;

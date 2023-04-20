@@ -4,23 +4,20 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
+use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
 use Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
-use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
-use Context;
-use Is_favoriteproducts;
 
 class ActionFrontControllerSetMedia extends AbstractHook
 {
     private FavoriteProductJsonPresenter $productPresenter;
 
     public function __construct(
-        Is_favoriteproducts $module,
-        Context $context,
+        \Is_favoriteproducts $module,
+        \Context $context,
         FavoriteProductService $favoriteProductService,
         FavoriteProductJsonPresenter $productPresenter
-    )
-    {
+    ) {
         parent::__construct($module, $context, $favoriteProductService);
         $this->productPresenter = $productPresenter;
     }
@@ -37,7 +34,7 @@ class ActionFrontControllerSetMedia extends AbstractHook
                 'ajax' => '1',
             ]),
             'favoriteProducts' => $this->getFavoriteProductsJsonData(),
-            'isFavoriteProductsListingPage' => $this->context->controller instanceof \Is_favoriteproductsFavoriteModuleFrontController
+            'isFavoriteProductsListingPage' => $this->context->controller instanceof \Is_favoriteproductsFavoriteModuleFrontController,
         ]);
     }
 

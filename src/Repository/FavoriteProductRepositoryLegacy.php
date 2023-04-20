@@ -41,8 +41,7 @@ class FavoriteProductRepositoryLegacy
         int $limit,
         string $orderBy,
         string $orderWay
-    ) :array
-    {
+    ): array {
         $qb = $this->connection->createQueryBuilder();
 
         $qb
@@ -60,14 +59,14 @@ class FavoriteProductRepositoryLegacy
             ->setParameter('id_shop', $id_shop);
 
         $results = $qb->execute()->fetchAllAssociative();
+
         return !empty($results) ? $results : [];
     }
 
     public function getCountFavoriteProductsForListing(
         int $id_customer,
         int $id_shop
-    ) :int
-    {
+    ): int {
         $qb = $this->connection->createQueryBuilder();
 
         $qb

@@ -1,8 +1,8 @@
 <?php
 
-use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
-use Oksydan\IsFavoriteProducts\Hook\DisplayTop;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
+use Oksydan\IsFavoriteProducts\Hook\DisplayTop;
+use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
 class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
 {
@@ -90,7 +90,6 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         $this->renderResponse();
     }
 
-
     public function displayAjaxRemoveFavoriteProduct(): void
     {
         $this->checkProductExistence();
@@ -123,11 +122,11 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
 
         $this->ajaxRender(json_encode([
             'success' => empty($this->errors),
-            'messages' => empty($this->errors)? $this->message : $this->errors,
+            'messages' => empty($this->errors) ? $this->message : $this->errors,
             'topContent' => $this->getDisplayTopContent(),
         ]));
 
-        die();
+        exit;
     }
 
     private function getDisplayTopContent()

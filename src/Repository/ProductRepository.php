@@ -59,8 +59,7 @@ class ProductRepository
         int $productId,
         int $productIdAttribute,
         int $storeId
-    ): bool
-    {
+    ): bool {
         $qb = $this->connection->createQueryBuilder();
 
         $qb

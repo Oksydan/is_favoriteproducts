@@ -70,7 +70,6 @@ class ModuleInstaller
         return $success;
     }
 
-
     private function uninstallDatabase(): bool
     {
         $success = true;

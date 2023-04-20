@@ -2,12 +2,12 @@
 
 namespace Oksydan\IsFavoriteProducts\ProductSearchProvider;
 
+use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchContext;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchProviderInterface;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchResult;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
-use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 
 class FavoriteProductsSearchProvider implements ProductSearchProviderInterface
@@ -55,5 +55,4 @@ class FavoriteProductsSearchProvider implements ProductSearchProviderInterface
 
         return $result;
     }
-
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Repository;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FavoriteProductCookieRepository
 {
@@ -39,7 +39,7 @@ class FavoriteProductCookieRepository
         }
 
         $products = [];
-        $cookies = (Request::createFromGlobals())->cookies;
+        $cookies = Request::createFromGlobals()->cookies;
         $favoriteProducts = $cookies->get(self::COOKIE_NAME);
 
         if (empty($favoriteProducts)) {
@@ -78,7 +78,7 @@ class FavoriteProductCookieRepository
         $favoriteProducts = $this->getFavoriteProducts($favoriteProduct->getIdShop());
 
         $favoriteProducts = array_filter($favoriteProducts, function ($product) use ($favoriteProduct) {
-            return  !($product->getIdProduct() == $favoriteProduct->getIdProduct() &&
+            return !($product->getIdProduct() == $favoriteProduct->getIdProduct() &&
                     $product->getIdProductAttribute() == $favoriteProduct->getIdProductAttribute() &&
                     $product->getIdShop() == $favoriteProduct->getIdShop());
         });
@@ -121,11 +121,9 @@ class FavoriteProductCookieRepository
         foreach ($favoriteProducts as $favoriteProduct) {
             if ($favoriteProduct->getIdProduct() === $favoriteProductToCheck->getIdProduct() &&
                 $favoriteProduct->getIdProductAttribute() === $favoriteProductToCheck->getIdProductAttribute()) {
-
                 return true;
             }
         }
-
 
         return false;
     }

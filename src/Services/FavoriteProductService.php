@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Services;
 
-use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
-use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
-use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
-use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy;
+use Context;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
-use Context;
 use Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy;
+use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
 
 class FavoriteProductService
 {
     /*
      * Context
      */
-    private Context $context;
+    private \Context $context;
 
     /*
      * @var FavoriteProductRepository
@@ -47,7 +47,7 @@ class FavoriteProductService
     const FAVORITE_LIMIT_FOR_GUEST = 20;
 
     public function __construct(
-        Context $context,
+        \Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
         ProductRepository $productRepository,
@@ -178,7 +178,6 @@ class FavoriteProductService
                 'page' => $page,
             ];
         }
-
     }
 
     public function addFavoriteProduct(FavoriteProductDTO $favoriteProduct): void
@@ -256,4 +255,3 @@ class FavoriteProductService
         $this->favoriteProductsCookieRepository->clearFavoriteProducts();
     }
 }
-
