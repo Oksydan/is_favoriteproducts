@@ -24,6 +24,6 @@
     "prepend-autoloader": false
   },
   "require-dev": {
-    "prestashop/php-dev-tools": "~3.0"
+    "prestashop/php-dev-tools": "~4.0"
   }
 }
