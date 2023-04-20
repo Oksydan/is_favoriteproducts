@@ -16,7 +16,7 @@ jobs:
 
       - name: PHP syntax checker 8.1
         uses: prestashop/github-action-php-lint/8.1@master
-        
+
   php-cs-fixer:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
 
       - name: Checkout
         uses: actions/checkout@v2.0.0
@@ -51,7 +51,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
 
       - name: Checkout
         uses: actions/checkout@v2.0.0
