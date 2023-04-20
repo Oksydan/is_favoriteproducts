@@ -3,14 +3,18 @@
 .favorite-btn {
   $self: &;
 
+  /* stylelint-disable */
   &[data-active="true"]:hover,
   &[data-active="true"]:focus,
   &[data-active="true"]:active,
   &[data-active="true"] {
+  /* stylelint-enable */
     color: $primary;
   }
 
+  /* stylelint-disable */
   &[data-active="true"] {
+  /* stylelint-enable */
     #{$self} {
       &__content {
         &--add {
@@ -20,7 +24,9 @@
     }
   }
 
+  /* stylelint-disable */
   &[data-active="false"] {
+  /* stylelint-enable */
     #{$self} {
       &__content {
         &--added {
