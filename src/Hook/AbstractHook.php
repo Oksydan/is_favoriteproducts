@@ -4,24 +4,32 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
-use Context;
-use Module;
+use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
 abstract class AbstractHook implements HookInterface
 {
     /**
-     * @var Module
+     * @var \Is_favoriteproducts
      */
-    protected Module $module;
+    protected \Is_favoriteproducts $module;
 
     /**
-     * @var Context
+     * @var \Context
      */
-    protected Context $context;
+    protected \Context $context;
 
-    public function __construct(Module $module, Context $context)
-    {
+    /**
+     * @var FavoriteProductService
+     */
+    protected FavoriteProductService $favoriteProductService;
+
+    public function __construct(
+        \Is_favoriteproducts $module,
+        \Context $context,
+        FavoriteProductService $favoriteProductService
+    ) {
         $this->module = $module;
         $this->context = $context;
+        $this->favoriteProductService = $favoriteProductService;
     }
 }

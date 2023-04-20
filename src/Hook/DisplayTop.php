@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
-use Oksydan\IsFavoriteProducts\AbstractDisplayHook;
-
 class DisplayTop extends AbstractDisplayHook
 {
     private const TEMPLATE_FILE = 'top.tpl';
@@ -17,6 +15,9 @@ class DisplayTop extends AbstractDisplayHook
 
     protected function assignTemplateVariables(array $params)
     {
-
+        $this->context->smarty->assign([
+            'favoriteProductsCount' => count($this->favoriteProductService->getFavoriteProducts()),
+            'favoritePageUrl' => $this->context->link->getModuleLink($this->module->name, 'favorite'),
+        ]);
     }
 }

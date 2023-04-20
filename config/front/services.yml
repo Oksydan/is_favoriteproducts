@@ -1,0 +1,33 @@
+imports:
+  - { resource: ../common.yml }
+
+services:
+  _defaults:
+    public: true
+
+  Oksydan\IsFavoriteProducts\Hook\DisplayTop:
+    class: Oksydan\IsFavoriteProducts\Hook\DisplayTop
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+    public: true
+
+  Oksydan\IsFavoriteProducts\Hook\DisplayProductListReviews:
+    class: Oksydan\IsFavoriteProducts\Hook\DisplayProductListReviews
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+    public: true
+
+  Oksydan\IsFavoriteProducts\Hook\DisplayProductActions:
+    class: Oksydan\IsFavoriteProducts\Hook\DisplayProductActions
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+    public: true
+
+  Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia:
+    class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+    public: true
+    arguments:
+      - '@Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter'
+
+  Oksydan\IsFavoriteProducts\Hook\ActionAuthentication:
+    class: Oksydan\IsFavoriteProducts\Hook\ActionAuthentication
+    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+    public: true

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository")
+ *
  * @ORM\Table()
  */
 class FavoriteProduct
@@ -16,7 +17,9 @@ class FavoriteProduct
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(name="id_favorite_product", type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -50,7 +53,7 @@ class FavoriteProduct
     private $id_shop;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeImmutable
      *
      * @ORM\Column(name="date_add", type="datetime_immutable")
      */
