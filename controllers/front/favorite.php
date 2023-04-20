@@ -25,7 +25,7 @@ class Is_favoriteproductsFavoriteModuleFrontController extends ProductListingFro
 
     public function getListingLabel()
     {
-        return 'Ulubione produkty';
+        return $this->module->getTranslator()->trans('Favorite products', [], 'Modules.IsFavoriteProducts.Front');
     }
 
     public function initContent()
@@ -62,10 +62,11 @@ class Is_favoriteproductsFavoriteModuleFrontController extends ProductListingFro
         $search = $this->getProductSearchVariables();
 
         $rendered_products_top = $this->render('catalog/_partials/products-top', ['listing' => $search]);
+
         $this->context->smarty->assign([
             'listing' => $search,
         ]);
-//        $rendered_products = $this->module->fetch("module:{$this->module->name}/views/templates/front/wishlist-products.tpl");
+
         $rendered_products = $this->render('catalog/_partials/products', ['listing' => $search]);
         $rendered_products_bottom = $this->render('catalog/_partials/products-bottom', ['listing' => $search]);
         $rendered_notifications = $this->render('_partials/notifications', ['notifications' => $this->prepareNotifications()]);

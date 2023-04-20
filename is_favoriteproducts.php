@@ -13,7 +13,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 use Oksydan\IsFavoriteProducts\Hook\HookInterface;
-use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
+use Oksydan\IsFavoriteProducts\Installer\ModuleInstaller;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class Is_favoriteproducts extends Module
@@ -36,18 +36,17 @@ class Is_favoriteproducts extends Module
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
     }
 
+    private function getModuleInstaller(): ModuleInstaller
+    {
+        return new ModuleInstaller($this);
+    }
+
     /**
      * @return bool
      */
     public function install(): bool
     {
-        return
-            parent::install()
-            && $this->registerHook('displayTop')
-            && $this->registerHook('actionFrontControllerSetMedia')
-            && $this->registerHook('actionAuthentication')
-            && $this->registerHook('displayProductListReviews')
-            && $this->registerHook('displayProductActions');
+        return parent::install() && $this->getModuleInstaller()->install();
     }
 
     /**
@@ -55,12 +54,7 @@ class Is_favoriteproducts extends Module
      */
     public function uninstall(): bool
     {
-        return parent::uninstall();
-    }
-
-    public function getContent(): void
-    {
-        \Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_favoriteproducts_controller'));
+        return parent::uninstall() && $this->getModuleInstaller()->uninstall();
     }
 
     /**
