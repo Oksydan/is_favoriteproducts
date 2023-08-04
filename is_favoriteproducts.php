@@ -36,6 +36,11 @@ class Is_favoriteproducts extends Module
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
     }
 
+    public function isUsingNewTranslationSystem(): bool
+    {
+        return true;
+    }
+
     private function getModuleInstaller(): ModuleInstaller
     {
         return new ModuleInstaller($this);
