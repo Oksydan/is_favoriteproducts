@@ -27,13 +27,18 @@ class Is_favoriteproducts extends Module
         $this->author = 'Igor Stępień';
         $this->version = '1.0.0';
         $this->need_instance = 0;
-
+        $this->controllers = ['favorite'];
         $this->bootstrap = true;
         parent::__construct();
 
         $this->displayName = 'Favorite products module';
         $this->description = 'Favorite products module';
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+    }
+
+    public function isUsingNewTranslationSystem(): bool
+    {
+        return true;
     }
 
     private function getModuleInstaller(): ModuleInstaller

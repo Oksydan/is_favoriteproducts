@@ -26,7 +26,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         $exists = $this->getFavoriteProductService()->productExists($idProduct, $idProductAttribute, $this->context->shop->id);
 
         if (!$exists) {
-            $this->errors[] = $this->module->getTranslator()->trans('Product does not exist in store', [], 'Modules.IsFavoriteProducts.Front');
+            $this->errors[] = $this->module->getTranslator()->trans('Product does not exist in store', [], 'Modules.Isfavoriteproducts.Front');
         }
 
         return $exists;
@@ -39,7 +39,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         if ($reached) {
             $this->errors[] = $this->module->getTranslator()->trans('You have reached limit of %number% products in your favorite list. Login or create an account to add more products.', [
                 '%number%' => $this->getFavoriteProductService()->getFavoriteLimit(),
-            ], 'Modules.IsFavoriteProducts.Front');
+            ], 'Modules.Isfavoriteproducts.Front');
         }
 
         return $reached;
@@ -72,7 +72,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         $favoriteProduct = $this->createFavoriteProductDto();
 
         if (empty($this->errors) && $this->getFavoriteProductService()->isProductAlreadyInFavorites($favoriteProduct)) {
-            $this->errors[] = $this->module->getTranslator()->trans('Product already exists in your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+            $this->errors[] = $this->module->getTranslator()->trans('Product already exists in your favorite list', [], 'Modules.Isfavoriteproducts.Front');
         }
 
         if (empty($this->errors)) {
@@ -84,7 +84,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         }
 
         if (empty($this->errors)) {
-            $this->message[] = $this->module->getTranslator()->trans('Product added to your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+            $this->message[] = $this->module->getTranslator()->trans('Product added to your favorite list', [], 'Modules.Isfavoriteproducts.Front');
         }
 
         $this->renderResponse();
@@ -97,7 +97,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         $favoriteProduct = $this->createFavoriteProductDto();
 
         if (empty($this->errors) && !$this->getFavoriteProductService()->isProductAlreadyInFavorites($favoriteProduct)) {
-            $this->errors[] = $this->module->getTranslator()->trans('Product don\'t exists in your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+            $this->errors[] = $this->module->getTranslator()->trans('Product don\'t exists in your favorite list', [], 'Modules.Isfavoriteproducts.Front');
         }
 
         if (empty($this->errors)) {
@@ -109,7 +109,7 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         }
 
         if (empty($this->errors)) {
-            $this->message[] = $this->module->getTranslator()->trans('Product removed from your favorite list', [], 'Modules.IsFavoriteProducts.Front');
+            $this->message[] = $this->module->getTranslator()->trans('Product removed from your favorite list', [], 'Modules.Isfavoriteproducts.Front');
         }
 
         $this->renderResponse();
