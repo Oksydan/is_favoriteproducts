@@ -31,8 +31,8 @@ class Is_favoriteproducts extends Module
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = 'Favorite products module';
-        $this->description = 'Favorite products module';
+        $this->displayName = $this->trans('Favorite products module', [], 'Modules.Isfavoriteproducts.Admin');
+        $this->description = $this->trans('Falcon theme favorite products module', [], 'Modules.Isfavoriteproducts.Admin');
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
     }
 
