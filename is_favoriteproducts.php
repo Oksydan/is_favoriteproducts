@@ -25,15 +25,20 @@ class Is_favoriteproducts extends Module
         $this->name = 'is_favoriteproducts';
 
         $this->author = 'Igor Stępień';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->need_instance = 0;
-
+        $this->controllers = ['favorite'];
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = 'Favorite products module';
-        $this->description = 'Favorite products module';
+        $this->displayName = $this->trans('Favorite products module', [], 'Modules.Isfavoriteproducts.Admin');
+        $this->description = $this->trans('Falcon theme favorite products module', [], 'Modules.Isfavoriteproducts.Admin');
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+    }
+
+    public function isUsingNewTranslationSystem(): bool
+    {
+        return true;
     }
 
     private function getModuleInstaller(): ModuleInstaller

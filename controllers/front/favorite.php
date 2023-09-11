@@ -25,7 +25,7 @@ class Is_favoriteproductsFavoriteModuleFrontController extends ProductListingFro
 
     public function getListingLabel()
     {
-        return $this->module->getTranslator()->trans('Favorite products', [], 'Modules.IsFavoriteProducts.Front');
+        return $this->module->getTranslator()->trans('Favorite products', [], 'Modules.Isfavoriteproducts.Front');
     }
 
     public function initContent()
