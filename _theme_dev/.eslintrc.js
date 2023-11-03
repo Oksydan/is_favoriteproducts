@@ -12,6 +12,11 @@ module.exports = {
     navigator: false,
     window: true,
     prestashop: true,
+    bootstrap: false,
+    each: false,
+    useHttpRequest: false,
+    DOMReady: false,
+    eventHandlerOn: false,
   },
   extends: ['airbnb-base'],
   rules: {

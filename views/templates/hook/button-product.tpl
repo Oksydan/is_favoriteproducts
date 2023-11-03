@@ -1,8 +1,7 @@
 
-<div class="col-auto mt-2 px-1">
-
+<div class="col-auto">
     <a
-        class="product-page__action-btn btn btn-light shadow rounded-circle favorite-btn p-2"
+        class="product-page__action-btn btn btn-light rounded-circle favorite-btn p-2"
         href="#"
         data-action="toggleFavorite"
         data-active="false"
