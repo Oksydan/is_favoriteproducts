@@ -1,5 +1,3 @@
-import wretch from 'wretch';
-import QueryStringAddon from 'wretch/addons/queryString';
 import useFavoriteProductsState from './useFavoriteProductsState';
 
 const useFavoriteProducts = () => {
@@ -7,11 +5,11 @@ const useFavoriteProducts = () => {
   const initialState = window.favoriteProducts || [];
   const { getFavoriteProducts, addProductKey, removeProductKey } = useFavoriteProductsState(initialState);
 
-  const getWretch = (url) => wretch(url).addon(QueryStringAddon);
-
   const addToFavorite = async (idProduct, idProductAttribute, refreshList = 0) => new Promise((resolve, reject) => {
     // addToFavoriteAction is a global variable set via Media::addJsDef
-    getWretch(window.addToFavoriteAction)
+    const { request } = useHttpRequest(window.addToFavoriteAction);
+
+    request
       .query({
         id_product: idProduct,
         id_product_attribute: idProductAttribute,
@@ -32,7 +30,9 @@ const useFavoriteProducts = () => {
 
   const removeFromFavorite = async (idProduct, idProductAttribute, refreshList = 0) => new Promise((resolve, reject) => {
     // removeFromFavoriteAction is a global variable set via Media::addJsDef
-    getWretch(window.removeFromFavoriteAction)
+    const { request } = useHttpRequest(window.removeFromFavoriteAction);
+
+    request
       .query({
         id_product: idProduct,
         id_product_attribute: idProductAttribute,

@@ -28,17 +28,17 @@ const useFavoriteDOMHandler = (buttonsSelector = '[data-action="toggleFavorite"]
     const { key } = btn.dataset;
     const allButtons = getAllButtonsByProductKey(key);
 
-    allButtons.forEach((currentBtn) => {
+    each(allButtons, (currentBtn) => {
       currentBtn.dataset[activeDataAttribute] = false;
     });
   };
 
   const refreshButtons = () => {
-    getButtons().forEach((btn) => {
+    each(getButtons(), (btn) => {
       btn.dataset[activeDataAttribute] = false;
     });
 
-    getFavoriteProducts().forEach((productKey) => {
+    each(getFavoriteProducts(), (productKey) => {
       const allButtons = getAllButtonsByProductKey(productKey);
 
       allButtons.forEach((btn) => {

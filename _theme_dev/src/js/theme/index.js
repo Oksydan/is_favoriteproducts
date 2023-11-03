@@ -2,7 +2,7 @@ import useAlertToast from '@js/theme/components/useAlertToast';
 import useFavoriteProducts from './components/useFavoriteProducts';
 import useFavoriteDOMHandler from './components/useFavoriteDOMHandler';
 
-document.addEventListener('DOMContentLoaded', () => {
+DOMReady(() => {
   const {
     addToFavorite,
     removeFromFavorite,
@@ -37,10 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  document.addEventListener('click', async (event) => {
-    const btn = event.target.matches('[data-action="toggleFavorite"]')
-      ? event.target
-      : event.target.closest('[data-action="toggleFavorite"]');
+  eventHandlerOn(document, 'click', '[data-action="toggleFavorite"]', async (event) => {
+    const btn = event.delegateTarget;
 
     if (btn) {
       event.preventDefault();
@@ -79,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         prestashop.emit('updateFacets', window.location.href);
       }
     }
-  }, false);
+  });
 
   refreshButtons();
 
