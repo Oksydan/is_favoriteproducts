@@ -77,7 +77,7 @@ DOMReady(() => {
         prestashop.emit('updateFacets', window.location.href);
       }
     }
-  })
+  });
 
   refreshButtons();
 
