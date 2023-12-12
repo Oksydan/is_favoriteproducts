@@ -9,8 +9,8 @@ use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
-use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductLegacyRepository;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
 use Oksydan\IsFavoriteProducts\Repository\ProductLegacyRepository;
 
 class FavoriteProductService
@@ -47,12 +47,12 @@ class FavoriteProductService
     const FAVORITE_LIMIT_FOR_GUEST = 20;
 
     public function __construct(
-        \Context                        $context,
-        FavoriteProductRepository       $favoriteProductsRepository,
+        \Context $context,
+        FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
-        ProductLegacyRepository         $productRepository,
+        ProductLegacyRepository $productRepository,
         FavoriteProductLegacyRepository $favoriteProductsRepositoryLegacy,
-        FavoriteProductMapper           $favoriteProductMapper
+        FavoriteProductMapper $favoriteProductMapper
     ) {
         $this->context = $context;
         $this->favoriteProductsRepository = $favoriteProductsRepository;
