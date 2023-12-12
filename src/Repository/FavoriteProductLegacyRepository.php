@@ -6,7 +6,7 @@ namespace Oksydan\IsFavoriteProducts\Repository;
 
 use Doctrine\DBAL\Connection;
 
-class FavoriteProductRepositoryLegacy
+class FavoriteProductLegacyRepository
 {
     /**
      * @var Connection
@@ -16,7 +16,7 @@ class FavoriteProductRepositoryLegacy
     /**
      * @var string
      */
-    private string $databasePrefix;
+    private string $dbPrefix;
 
     /**
      * @var string
@@ -25,13 +25,13 @@ class FavoriteProductRepositoryLegacy
 
     /**
      * @param Connection $connection
-     * @param string $databasePrefix
+     * @param string $dbPrefix
      */
-    public function __construct(Connection $connection, string $databasePrefix)
+    public function __construct(Connection $connection, string $dbPrefix)
     {
         $this->connection = $connection;
-        $this->databasePrefix = $databasePrefix;
-        $this->table = $this->databasePrefix . 'favorite_product';
+        $this->dbPrefix = $dbPrefix;
+        $this->table = $this->dbPrefix . 'favorite_product';
     }
 
     public function getFavoriteProductsForListing(
@@ -50,7 +50,7 @@ class FavoriteProductRepositoryLegacy
             ->where('fp.id_customer = :id_customer')
             ->andWhere('fp.id_shop = :id_shop')
             ->orderBy('fp.' . $orderBy, $orderWay)
-            ->join('fp', $this->databasePrefix . 'product_shop', 'ps', 'ps.id_product = fp.id_product AND ps.id_shop = fp.id_shop')
+            ->join('fp', $this->dbPrefix . 'product_shop', 'ps', 'ps.id_product = fp.id_product AND ps.id_shop = fp.id_shop')
             ->andWhere('ps.active = 1')
             ->andWhere('ps.visibility != \'none\'')
             ->setFirstResult(($page - 1) * $limit)
@@ -76,7 +76,7 @@ class FavoriteProductRepositoryLegacy
             ->andWhere('fp.id_shop = :id_shop')
             ->setParameter('id_customer', $id_customer)
             ->setParameter('id_shop', $id_shop)
-            ->join('fp', $this->databasePrefix . 'product_shop', 'ps', 'ps.id_product = fp.id_product AND ps.id_shop = fp.id_shop')
+            ->join('fp', $this->dbPrefix . 'product_shop', 'ps', 'ps.id_product = fp.id_product AND ps.id_shop = fp.id_shop')
             ->andWhere('ps.active = 1')
             ->andWhere('ps.visibility != \'none\'');
 

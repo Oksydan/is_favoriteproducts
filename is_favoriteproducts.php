@@ -33,7 +33,7 @@ class Is_favoriteproducts extends Module
 
         $this->displayName = $this->trans('Favorite products module', [], 'Modules.Isfavoriteproducts.Admin');
         $this->description = $this->trans('Falcon theme favorite products module', [], 'Modules.Isfavoriteproducts.Admin');
-        $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '8.1.0', 'max' => _PS_VERSION_];
     }
 
     public function isUsingNewTranslationSystem(): bool

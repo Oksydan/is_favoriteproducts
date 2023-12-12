@@ -9,9 +9,9 @@ use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductLegacyRepository;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
-use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy;
-use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
+use Oksydan\IsFavoriteProducts\Repository\ProductLegacyRepository;
 
 class FavoriteProductService
 {
@@ -26,9 +26,9 @@ class FavoriteProductService
     private FavoriteProductRepository $favoriteProductsRepository;
 
     /*
-     * @var FavoriteProductRepositoryLegacy
+     * @var FavoriteProductLegacyRepository
      */
-    private FavoriteProductRepositoryLegacy $favoriteProductsRepositoryLegacy;
+    private FavoriteProductLegacyRepository $favoriteProductsRepositoryLegacy;
 
     /*
      * @var FavoriteProductsCookieRepository
@@ -38,7 +38,7 @@ class FavoriteProductService
     /*
      * @var ProductRepository
      */
-    private ProductRepository $productRepository;
+    private ProductLegacyRepository $productRepository;
 
     private FavoriteProductMapper $favoriteProductMapper;
 
@@ -50,8 +50,8 @@ class FavoriteProductService
         \Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
-        ProductRepository $productRepository,
-        FavoriteProductRepositoryLegacy $favoriteProductsRepositoryLegacy,
+        ProductLegacyRepository $productRepository,
+        FavoriteProductLegacyRepository $favoriteProductsRepositoryLegacy,
         FavoriteProductMapper $favoriteProductMapper
     ) {
         $this->context = $context;
