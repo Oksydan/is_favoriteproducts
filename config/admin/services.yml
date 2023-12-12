@@ -3,4 +3,23 @@ imports:
 
 services:
   _defaults:
+    public: false
+    autoconfigure: true
+    autowire: true
+    bind:
+      $module: '@oksydan.is_favoriteproducts.module'
+      $context: '@oksydan.is_favoriteproducts.context'
+      $dbPrefix: '%database_prefix%'
+
+  Oksydan\IsFavoriteProducts\:
+    resource: '../../src/*'
+    exclude:
+      - '../../src/{DTO,Entity}'
+      - '../../src/index.php'
+      - '../../src/*/index.php'
+
+  Oksydan\IsFavoriteProducts\Hook\:
     public: true
+    resource: '../../src/Hook/*'
+    exclude:
+      - '../../src/Hook/index.php'

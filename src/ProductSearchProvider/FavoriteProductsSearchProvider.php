@@ -8,20 +8,21 @@ use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchProviderInterface;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchResult;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
-use Symfony\Contracts\Translation\LocaleAwareInterface;
+use PrestaShopBundle\Translation\TranslatorInterface;
 
 class FavoriteProductsSearchProvider implements ProductSearchProviderInterface
 {
     protected FavoriteProductService $favoriteService;
 
-    private LocaleAwareInterface $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(
         FavoriteProductService $favoriteService,
-        LocaleAwareInterface $translator
+        \Context $context
     ) {
-        $this->translator = $translator;
         $this->favoriteService = $favoriteService;
+        // WE HAVE TO DO IT THIS WAY BECAUSE `TranslatorInterface` IS NOT AVAILABLE AS A SERVICE IN FRONT CONTAINER
+        $this->translator = $context->getTranslator();
     }
 
     public function runQuery(ProductSearchContext $context, ProductSearchQuery $query): ProductSearchResult

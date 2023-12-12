@@ -3,31 +3,31 @@ imports:
 
 services:
   _defaults:
-    public: true
+    public: false
+    autoconfigure: true
+    autowire: true
+    bind:
+      $module: '@oksydan.is_favoriteproducts.module'
+      $context: '@oksydan.is_favoriteproducts.context'
+      $dbPrefix: '%database_prefix%'
 
-  Oksydan\IsFavoriteProducts\Hook\DisplayTop:
-    class: Oksydan\IsFavoriteProducts\Hook\DisplayTop
-    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
-    public: true
+  Oksydan\IsFavoriteProducts\:
+    resource: '../../src/*'
+    exclude:
+      - '../../src/{DTO,Entity}'
+      - '../../src/index.php'
+      - '../../src/*/index.php'
 
-  Oksydan\IsFavoriteProducts\Hook\DisplayProductListReviews:
-    class: Oksydan\IsFavoriteProducts\Hook\DisplayProductListReviews
-    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+  Oksydan\IsFavoriteProducts\Hook\:
     public: true
+    resource: '../../src/Hook/*'
+    exclude:
+      - '../../src/Hook/index.php'
 
-  Oksydan\IsFavoriteProducts\Hook\DisplayProductActions:
-    class: Oksydan\IsFavoriteProducts\Hook\DisplayProductActions
-    parent: Oksydan\IsFavoriteProducts\Hook\AbstractDisplayHook
+  Oksydan\IsFavoriteProducts\Services\FavoriteProductService:
     public: true
+    class: Oksydan\IsFavoriteProducts\Services\FavoriteProductService
 
-  Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia:
-    class: Oksydan\IsFavoriteProducts\Hook\ActionFrontControllerSetMedia
-    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
+  Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider:
     public: true
-    arguments:
-      - '@Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter'
-
-  Oksydan\IsFavoriteProducts\Hook\ActionAuthentication:
-    class: Oksydan\IsFavoriteProducts\Hook\ActionAuthentication
-    parent: Oksydan\IsFavoriteProducts\Hook\AbstractHook
-    public: true
+    class: Oksydan\IsFavoriteProducts\ProductSearchProvider\FavoriteProductsSearchProvider

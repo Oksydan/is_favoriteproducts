@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 
-class FavoriteProductRepository extends EntityRepository
+class FavoriteProductRepository extends ServiceEntityRepository
 {
-    private string $databasePrefix = _DB_PREFIX_;
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, FavoriteProduct::class);
+    }
 
     public function getFavoriteProductsByCustomer(int $id_customer, int $id_shop): array
     {

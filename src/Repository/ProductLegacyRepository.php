@@ -6,7 +6,7 @@ namespace Oksydan\IsFavoriteProducts\Repository;
 
 use Doctrine\DBAL\Connection;
 
-class ProductRepository
+class ProductLegacyRepository
 {
     /**
      * @var Connection
@@ -16,7 +16,7 @@ class ProductRepository
     /**
      * @var string
      */
-    private string $databasePrefix;
+    private string $dbPrefix;
 
     /**
      * @var string
@@ -25,13 +25,13 @@ class ProductRepository
 
     /**
      * @param Connection $connection
-     * @param string $databasePrefix
+     * @param string $dbPrefix
      */
-    public function __construct(Connection $connection, string $databasePrefix)
+    public function __construct(Connection $connection, string $dbPrefix)
     {
         $this->connection = $connection;
-        $this->databasePrefix = $databasePrefix;
-        $this->table = $this->databasePrefix . 'product_shop';
+        $this->dbPrefix = $dbPrefix;
+        $this->table = $this->dbPrefix . 'product_shop';
     }
 
     public function isProductExistsInStore(int $productId, int $productIdAttribute, int $storeId): bool
@@ -48,7 +48,7 @@ class ProductRepository
         if ($productIdAttribute > 0) {
             $qb->join(
                 'p',
-                $this->databasePrefix . 'product_attribute_shop', 'pa',
+                $this->dbPrefix . 'product_attribute_shop', 'pa',
                 'pa.id_product = p.id_product AND pa.id_shop = p.id_shop AND pa.id_product_attribute = :id_product_attribute');
         }
 
@@ -76,7 +76,7 @@ class ProductRepository
         if ($productIdAttribute > 0) {
             $qb->join(
                 'p',
-                $this->databasePrefix . 'product_attribute_shop', 'pa',
+                $this->dbPrefix . 'product_attribute_shop', 'pa',
                 'pa.id_product = p.id_product AND pa.id_shop = p.id_shop AND pa.id_product_attribute = :id_product_attribute');
         }
 

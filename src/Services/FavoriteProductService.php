@@ -10,8 +10,8 @@ use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductCookieRepository;
 use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
-use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepositoryLegacy;
-use Oksydan\IsFavoriteProducts\Repository\ProductRepository;
+use Oksydan\IsFavoriteProducts\Repository\FavoriteProductLegacyRepository;
+use Oksydan\IsFavoriteProducts\Repository\ProductLegacyRepository;
 
 class FavoriteProductService
 {
@@ -26,9 +26,9 @@ class FavoriteProductService
     private FavoriteProductRepository $favoriteProductsRepository;
 
     /*
-     * @var FavoriteProductRepositoryLegacy
+     * @var FavoriteProductLegacyRepository
      */
-    private FavoriteProductRepositoryLegacy $favoriteProductsRepositoryLegacy;
+    private FavoriteProductLegacyRepository $favoriteProductsRepositoryLegacy;
 
     /*
      * @var FavoriteProductsCookieRepository
@@ -38,7 +38,7 @@ class FavoriteProductService
     /*
      * @var ProductRepository
      */
-    private ProductRepository $productRepository;
+    private ProductLegacyRepository $productRepository;
 
     private FavoriteProductMapper $favoriteProductMapper;
 
@@ -47,12 +47,12 @@ class FavoriteProductService
     const FAVORITE_LIMIT_FOR_GUEST = 20;
 
     public function __construct(
-        \Context $context,
-        FavoriteProductRepository $favoriteProductsRepository,
+        \Context                        $context,
+        FavoriteProductRepository       $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
-        ProductRepository $productRepository,
-        FavoriteProductRepositoryLegacy $favoriteProductsRepositoryLegacy,
-        FavoriteProductMapper $favoriteProductMapper
+        ProductLegacyRepository         $productRepository,
+        FavoriteProductLegacyRepository $favoriteProductsRepositoryLegacy,
+        FavoriteProductMapper           $favoriteProductMapper
     ) {
         $this->context = $context;
         $this->favoriteProductsRepository = $favoriteProductsRepository;
