@@ -44,10 +44,10 @@ class FavoriteProductService
 
     protected $cachedFavoriteProducts = null;
 
-    const FAVORITE_LIMIT_FOR_GUEST = 20;
+    public const FAVORITE_LIMIT_FOR_GUEST = 20;
 
     public function __construct(
-        \Context $context,
+        Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
         ProductLegacyRepository $productRepository,
@@ -108,7 +108,7 @@ class FavoriteProductService
         } else {
             $favoriteProducts = $this->getFavoriteProducts();
 
-            return count($favoriteProducts) >= self::FAVORITE_LIMIT_FOR_GUEST;
+            return count($favoriteProducts) >= $this->getFavoriteLimit();
         }
     }
 
@@ -117,14 +117,54 @@ class FavoriteProductService
         return self::FAVORITE_LIMIT_FOR_GUEST;
     }
 
-    public function getFavoriteProductForListing(int $page = 1, int $limit = 10, string $orderBy = 'date_add', string $orderWay = 'DESC'): array
-    {
+    /**
+     * @param FavoriteProductDTO[] $excludeProducts
+     *
+     * @return array products
+     */
+    public function getFavoriteProductsForCartUpSelling(
+        array $excludeProducts = []
+    ): array {
+        $result = $this->getFavoriteProductForListing(
+            1,
+            10,
+            'date_add',
+            'DESC',
+            $excludeProducts
+        );
+
+        return $result['items'];
+    }
+
+    /**
+     * @param int $page
+     * @param int $limit
+     * @param string $orderBy
+     * @param string $orderWay
+     * @param FavoriteProductDTO[] $excludeProducts
+     *
+     * @return array ['items' => [], 'count' => int, 'page' => int]
+     */
+    public function getFavoriteProductForListing(
+        int $page = 1,
+        int $limit = 10,
+        string $orderBy = 'date_add',
+        string $orderWay = 'DESC',
+        array $excludeProducts = []
+    ): array {
         if (!$this->isCustomerLogged()) {
             $favoriteProducts = $this->getFavoriteProducts();
 
             $products = [];
 
             foreach ($favoriteProducts as $favoriteProduct) {
+                foreach ($excludeProducts as $excludeProduct) {
+                    if ($excludeProduct->getIdProduct() === $favoriteProduct->getIdProduct() &&
+                        $excludeProduct->getIdProductAttribute() === $favoriteProduct->getIdProductAttribute()) {
+                        continue 2;
+                    }
+                }
+
                 $product['date_add'] = $favoriteProduct->getDateAdd();
                 $product['id_product'] = $favoriteProduct->getIdProduct();
                 $product['id_product_attribute'] = $favoriteProduct->getIdProductAttribute();
@@ -164,12 +204,14 @@ class FavoriteProductService
                 $page,
                 $limit,
                 $orderBy,
-                $orderWay
+                $orderWay,
+                $excludeProducts
             );
 
             $count = $this->favoriteProductsRepositoryLegacy->getCountFavoriteProductsForListing(
                 (int) $this->context->customer->id,
-                (int) $this->context->shop->id
+                (int) $this->context->shop->id,
+                $excludeProducts
             );
 
             return [

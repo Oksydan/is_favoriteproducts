@@ -51,10 +51,29 @@ const useFavoriteProducts = () => {
       });
   });
 
+  const updateUpSellingBLock = async () => new Promise((resolve, reject) => {
+    if (!window?.refreshFavoriteUpSellingBlockUrl) {
+      return;
+    }
+
+    // refreshFavoriteUpSellingBlockUrl is a global variable set via Media::addJsDef
+    const { request } = useHttpRequest(window.refreshFavoriteUpSellingBlockUrl);
+
+    request
+      .post()
+      .json((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject(Error('Something went wrong'));
+      });
+  });
+
   return {
     getFavoriteProducts,
     addToFavorite,
     removeFromFavorite,
+    updateUpSellingBLock,
   };
 };
 

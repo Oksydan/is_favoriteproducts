@@ -1,11 +1,13 @@
 import useAlertToast from '@js/theme/components/useAlertToast';
 import useFavoriteProducts from './components/useFavoriteProducts';
 import useFavoriteDOMHandler from './components/useFavoriteDOMHandler';
+import { parseToHtml } from '@js/utils/DOM/DOMHelpers';
 
 DOMReady(() => {
   const {
     addToFavorite,
     removeFromFavorite,
+    updateUpSellingBLock,
   } = useFavoriteProducts();
   const {
     getProductIdsFromKey,
@@ -86,5 +88,26 @@ DOMReady(() => {
   });
   prestashop.on('updatedProductList', () => {
     setTimeout(refreshButtons, 1);
+  });
+  prestashop.on('updatedCart', async () => {
+    const upSellingBlock = document.querySelector('.js-favorite-up-selling-block');
+
+    if (!upSellingBlock) {
+      return;
+    }
+
+    try {
+      const { content } = await updateUpSellingBLock();
+
+      if (content) {
+        upSellingBlock.replaceWith(parseToHtml(content));
+        prestashop.emit('updatedFavoriteUpSellingBlock', content);
+      }
+    } catch (error) {
+    }
+  });
+  prestashop.on('updatedFavoriteUpSellingBlock', () => {
+    setTimeout(refreshButtons, 1);
+    prestashop.pageSlider.refresh();
   });
 });

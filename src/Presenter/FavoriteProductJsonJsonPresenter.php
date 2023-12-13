@@ -6,7 +6,7 @@ namespace Oksydan\IsFavoriteProducts\Presenter;
 
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
 
-class FavoriteProductJsonPresenter implements PresenterInterface
+class FavoriteProductJsonJsonPresenter implements JsonPresenterInterface
 {
     public function present(FavoriteProduct $favoriteProduct): string
     {

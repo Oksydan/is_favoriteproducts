@@ -104,4 +104,14 @@ class Is_favoriteproducts extends Module
 
         return $hook instanceof HookInterface ? $hook : null;
     }
+
+    public function getCacheId($name = null)
+    {
+        return parent::getCacheId($name);
+    }
+
+    public function _clearCache($template, $cache_id = null, $compile_id = null)
+    {
+        return parent::_clearCache($template, $cache_id, $compile_id);
+    }
 }
