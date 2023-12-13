@@ -1,7 +1,7 @@
 import useAlertToast from '@js/theme/components/useAlertToast';
+import { parseToHtml } from '@js/utils/DOM/DOMHelpers';
 import useFavoriteProducts from './components/useFavoriteProducts';
 import useFavoriteDOMHandler from './components/useFavoriteDOMHandler';
-import { parseToHtml } from '@js/utils/DOM/DOMHelpers';
 
 DOMReady(() => {
   const {
@@ -103,6 +103,7 @@ DOMReady(() => {
         upSellingBlock.replaceWith(parseToHtml(content));
         prestashop.emit('updatedFavoriteUpSellingBlock', content);
       }
+    // eslint-disable-next-line no-empty
     } catch (error) {
     }
   });
