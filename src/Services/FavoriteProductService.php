@@ -47,7 +47,7 @@ class FavoriteProductService
     public const FAVORITE_LIMIT_FOR_GUEST = 20;
 
     public function __construct(
-        Context $context,
+        \Context $context,
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
         ProductLegacyRepository $productRepository,

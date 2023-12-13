@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Repository;
 
-use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Doctrine\DBAL\Connection;
+use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 
 class FavoriteProductLegacyRepository
 {
@@ -45,6 +45,7 @@ class FavoriteProductLegacyRepository
      * @param FavoriteProductDTO[] $excludeProducts
      *
      * @return array
+     *
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
@@ -99,6 +100,7 @@ class FavoriteProductLegacyRepository
      * @param FavoriteProductDTO[] $excludeProducts
      *
      * @return int
+     *
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
