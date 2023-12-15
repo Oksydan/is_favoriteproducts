@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Services;
 
-use Context;
+use Oksydan\IsFavoriteProducts\Cache\TemplateCache;
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
 use Oksydan\IsFavoriteProducts\Entity\FavoriteProduct;
 use Oksydan\IsFavoriteProducts\Mapper\FavoriteProductMapper;
@@ -40,7 +40,15 @@ class FavoriteProductService
      */
     private ProductLegacyRepository $productRepository;
 
+    /*
+     * @var FavoriteProductMapper
+     */
     private FavoriteProductMapper $favoriteProductMapper;
+
+    /*
+     * @var TemplateCache
+     */
+    private TemplateCache $templateCache;
 
     protected $cachedFavoriteProducts = null;
 
@@ -52,7 +60,8 @@ class FavoriteProductService
         FavoriteProductCookieRepository $favoriteProductsCookieRepository,
         ProductLegacyRepository $productRepository,
         FavoriteProductLegacyRepository $favoriteProductsRepositoryLegacy,
-        FavoriteProductMapper $favoriteProductMapper
+        FavoriteProductMapper $favoriteProductMapper,
+        TemplateCache $templateCache
     ) {
         $this->context = $context;
         $this->favoriteProductsRepository = $favoriteProductsRepository;
@@ -60,6 +69,7 @@ class FavoriteProductService
         $this->productRepository = $productRepository;
         $this->favoriteProductsRepositoryLegacy = $favoriteProductsRepositoryLegacy;
         $this->favoriteProductMapper = $favoriteProductMapper;
+        $this->templateCache = $templateCache;
     }
 
     public function isCustomerLogged(): bool
@@ -236,6 +246,8 @@ class FavoriteProductService
             $this->favoriteProductsCookieRepository->addFavoriteProduct($favoriteProduct);
         }
 
+        $this->templateCache->clearCartTemplateCache();
+
         $this->cachedFavoriteProducts = null;
     }
 
@@ -257,6 +269,8 @@ class FavoriteProductService
         } else {
             $this->favoriteProductsCookieRepository->removeFavoriteProduct($favoriteProduct);
         }
+
+        $this->templateCache->clearCartTemplateCache();
 
         $this->cachedFavoriteProducts = null;
     }

@@ -25,7 +25,7 @@ class Is_favoriteproducts extends Module
         $this->name = 'is_favoriteproducts';
 
         $this->author = 'Igor Stępień';
-        $this->version = '1.0.1';
+        $this->version = '2.0.0';
         $this->need_instance = 0;
         $this->controllers = ['favorite'];
         $this->bootstrap = true;

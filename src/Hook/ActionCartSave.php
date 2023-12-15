@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
+use Oksydan\IsFavoriteProducts\Cache\TemplateCache;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
 class ActionCartSave extends AbstractHook
 {
-    private DisplayCrossSellingShoppingCart $displayCrossSellingShoppingCart;
+    private TemplateCache $templateCache;
 
     public function __construct(
         \Is_favoriteproducts $module,
         \Context $context,
         FavoriteProductService $favoriteProductService,
-        DisplayCrossSellingShoppingCart $displayCrossSellingShoppingCart
+        TemplateCache $templateCache
     ) {
         parent::__construct($module, $context, $favoriteProductService);
-        $this->displayCrossSellingShoppingCart = $displayCrossSellingShoppingCart;
+        $this->templateCache = $templateCache;
     }
 
     public function execute(array $params): void
@@ -26,6 +27,6 @@ class ActionCartSave extends AbstractHook
             return;
         }
 
-        $this->displayCrossSellingShoppingCart->clearCache();
+        $this->templateCache->clearCartTemplateCache();
     }
 }
