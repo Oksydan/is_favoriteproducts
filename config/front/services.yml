@@ -10,6 +10,11 @@ services:
       $module: '@oksydan.is_favoriteproducts.module'
       $context: '@oksydan.is_favoriteproducts.context'
       $dbPrefix: '%database_prefix%'
+      $cacheableHooksCollection: !tagged oksydan.is_favoriteproducts.cacheable_hook
+
+  _instanceof:
+    Oksydan\IsFavoriteProducts\Hook\AbstractCacheableDisplayHook:
+      tags: [ 'oksydan.is_favoriteproducts.cacheable_hook' ]
 
   Oksydan\IsFavoriteProducts\:
     resource: '../../src/*'

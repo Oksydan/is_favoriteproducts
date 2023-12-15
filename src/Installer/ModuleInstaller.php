@@ -10,20 +10,26 @@ class ModuleInstaller
         'displayTop',
         'actionFrontControllerSetMedia',
         'actionAuthentication',
-        'displayProductListReviews',
+        'displayProductFavoriteButton',
         'displayProductActions',
+        'displayCrossSellingShoppingCart',
+        'actionCartSave',
     ];
 
-    private \Module $module;
+    private \Is_favoriteproducts $module;
 
     public function __construct(
-        \Module $module
+        \Is_favoriteproducts $module
     ) {
         $this->module = $module;
     }
 
     public function install(): bool
     {
+        if (\Shop::isFeatureActive()) {
+            \Shop::setContext(\Shop::CONTEXT_ALL);
+        }
+
         return $this->installHooks() && $this->installDatabase();
     }
 

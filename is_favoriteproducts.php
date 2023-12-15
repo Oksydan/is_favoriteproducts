@@ -25,7 +25,7 @@ class Is_favoriteproducts extends Module
         $this->name = 'is_favoriteproducts';
 
         $this->author = 'Igor Stępień';
-        $this->version = '1.0.1';
+        $this->version = '2.0.0';
         $this->need_instance = 0;
         $this->controllers = ['favorite'];
         $this->bootstrap = true;
@@ -103,5 +103,15 @@ class Is_favoriteproducts extends Module
         $hook = $this->getService($serviceName);
 
         return $hook instanceof HookInterface ? $hook : null;
+    }
+
+    public function getCacheId($name = null)
+    {
+        return parent::getCacheId($name);
+    }
+
+    public function _clearCache($template, $cache_id = null, $compile_id = null)
+    {
+        return parent::_clearCache($template, $cache_id, $compile_id);
     }
 }

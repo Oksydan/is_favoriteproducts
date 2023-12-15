@@ -1,6 +1,7 @@
 <?php
 
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct as FavoriteProductDTO;
+use Oksydan\IsFavoriteProducts\Hook\DisplayCrossSellingShoppingCart;
 use Oksydan\IsFavoriteProducts\Hook\DisplayTop;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
@@ -88,6 +89,19 @@ class Is_favoriteproductsAjaxModuleFrontController extends ModuleFrontController
         }
 
         $this->renderResponse();
+    }
+
+    public function displayAjaxRefreshUpSellingBlock(): void
+    {
+        ob_end_clean();
+        header('Content-Type: application/json');
+        $hook = $this->get(DisplayCrossSellingShoppingCart::class);
+
+        $this->ajaxRender(json_encode([
+            'content' => $hook->execute([]),
+        ]));
+
+        exit;
     }
 
     public function displayAjaxRemoveFavoriteProduct(): void

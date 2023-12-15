@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
-class DisplayProductListReviews extends AbstractDisplayHook
+class DisplayProductFavoriteButton extends AbstractDisplayHook
 {
     private const TEMPLATE_FILE = 'button.tpl';
 
