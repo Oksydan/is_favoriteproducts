@@ -11,7 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 class AdminFavoriteProductPresenter implements AdminFavoriteProductPresenterInterface
 {
     /**
-     * @var RouterInterface $router
+     * @var RouterInterface
      */
     protected RouterInterface $router;
 
@@ -22,8 +22,7 @@ class AdminFavoriteProductPresenter implements AdminFavoriteProductPresenterInte
     public function __construct(
         RouterInterface $router,
         ProductLegacyRepository $productLegacyRepository
-    )
-    {
+    ) {
         $this->router = $router;
         $this->productLegacyRepository = $productLegacyRepository;
     }

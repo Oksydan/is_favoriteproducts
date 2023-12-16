@@ -10,22 +10,20 @@ use Oksydan\IsFavoriteProducts\Repository\FavoriteProductRepository;
 
 class CustomerFavoriteProductsProvider implements CustomerFavoriteProductsProviderInterface
 {
-
     /*
      * @var FavoriteProductRepository $favoriteProductsRepository
      */
     private FavoriteProductRepository $favoriteProductsRepository;
 
     /**
-     * @var FavoriteProductMapper $favoriteProductMapper
+     * @var FavoriteProductMapper
      */
     private FavoriteProductMapper $favoriteProductMapper;
 
     public function __construct(
         FavoriteProductRepository $favoriteProductsRepository,
         FavoriteProductMapper $favoriteProductMapper
-    )
-    {
+    ) {
         $this->favoriteProductsRepository = $favoriteProductsRepository;
         $this->favoriteProductMapper = $favoriteProductMapper;
     }
