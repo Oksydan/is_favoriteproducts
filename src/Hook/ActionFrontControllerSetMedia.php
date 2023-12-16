@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Oksydan\IsFavoriteProducts\Hook;
 
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
-use Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonJsonPresenter;
+use Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
 class ActionFrontControllerSetMedia extends AbstractHook
 {
-    private FavoriteProductJsonJsonPresenter $productPresenter;
+    private FavoriteProductJsonPresenter $productPresenter;
 
     public function __construct(
         \Is_favoriteproducts $module,
         \Context $context,
         FavoriteProductService $favoriteProductService,
-        FavoriteProductJsonJsonPresenter $productPresenter
+        FavoriteProductJsonPresenter $productPresenter
     ) {
         parent::__construct($module, $context, $favoriteProductService);
         $this->productPresenter = $productPresenter;
