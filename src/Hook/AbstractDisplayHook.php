@@ -28,7 +28,7 @@ abstract class AbstractDisplayHook extends AbstractHook
 
     public function getTemplateFullPath(): string
     {
-        return "module:{$this->module->name}/views/templates/hook/{$this->getTemplate()}";
+        return "module:{$this->module->name}/views/templates/hook/front/{$this->getTemplate()}";
     }
 
     abstract protected function getTemplate(): string;

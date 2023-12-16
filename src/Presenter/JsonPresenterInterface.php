@@ -8,5 +8,5 @@ use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
 
 interface JsonPresenterInterface
 {
-    public function present(FavoriteProduct $favoriteProduct);
+    public function present(FavoriteProduct $favoriteProduct): string;
 }

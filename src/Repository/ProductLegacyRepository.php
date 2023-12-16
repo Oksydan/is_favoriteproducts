@@ -82,4 +82,29 @@ class ProductLegacyRepository
 
         return (bool) $qb->execute()->fetchOne();
     }
+
+    public function getProductCombinationForIdProductAttribute(
+        int $idProduct,
+        int $idProductAttribute,
+        int $idLang
+    ): array {
+        $qb = $this->connection->createQueryBuilder()
+            ->select('alg.name AS group_name, al.`name` AS attribute_name')
+            ->from($this->dbPrefix . 'product_attribute', 'pa')
+            ->leftJoin('pa', $this->dbPrefix . 'product_attribute_combination', 'pac', 'pac.id_product_attribute = pa.id_product_attribute')
+            ->leftJoin('pac', $this->dbPrefix . 'attribute', 'a', 'a.id_attribute = pac.id_attribute')
+            ->leftJoin('a', $this->dbPrefix . 'attribute_lang', 'al', 'a.id_attribute = al.id_attribute')
+            ->leftJoin('a', $this->dbPrefix . 'attribute_group', 'ag', 'ag.id_attribute_group = a.id_attribute_group')
+            ->leftJoin('ag', $this->dbPrefix . 'attribute_group_lang', 'alg', 'ag.id_attribute_group = alg.id_attribute_group')
+            ->where('pa.id_product = :id_product')
+            ->andWhere('pa.id_product_attribute = :id_product_attribute')
+            ->andWhere('al.id_lang = :id_lang')
+            ->setParameter('id_product', $idProduct)
+            ->setParameter('id_product_attribute', $idProductAttribute)
+            ->setParameter('id_lang', $idLang)
+            ->groupBy('pa.id_product_attribute, ag.id_attribute_group')
+            ->orderBy('pa.id_product_attribute');
+
+        return $qb->execute()->fetchAllAssociative();
+    }
 }

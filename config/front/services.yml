@@ -27,6 +27,7 @@ services:
     public: true
     resource: '../../src/Hook/*'
     exclude:
+      - '../../src/Hook/{DisplayAdminCustomers.php,AbstractDisplayAdminHook.php}'
       - '../../src/Hook/index.php'
 
   Oksydan\IsFavoriteProducts\Services\FavoriteProductService:

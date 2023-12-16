@@ -1,0 +1,37 @@
+{% if products is not empty %}
+  <div class="col-md-6 col">
+
+    <div class="card customer-favorite-products-card">
+      <h3 class="card-header">
+        <i class="material-icons">favorite</i>
+        {{ 'Favorite products'|trans({}, 'Modules.Isfavoriteproducts.Admin') }}
+        <span class="badge badge-primary rounded">{{ products|length }}</span>
+      </h3>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>{{ 'ID'|trans({}, 'Admin.Global') }}</th>
+            <th>{{ 'Name'|trans({}, 'Admin.Global') }}</th>
+            <th>{{ 'Data add'|trans({}, 'Admin.Global') }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for product in products %}
+            <tr>
+              <td>{{ product.id }}</td>
+              <td>
+                <a href="{{ product.admin_url }}">
+                  {{ product.name }}
+                </a>
+              </td>
+              <td>{{ product.date_add }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+{% endif %}
