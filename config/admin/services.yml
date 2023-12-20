@@ -11,6 +11,8 @@ services:
       $context: '@oksydan.is_favoriteproducts.context'
       $dbPrefix: '%database_prefix%'
       $cacheableHooksCollection: !tagged oksydan.is_favoriteproducts.cacheable_hook
+      $formBuilderModifier: '@form.form_builder_modifier'
+      $locales: '@=service("prestashop.adapter.legacy.context").getLanguages()'
 
   _instanceof:
     Oksydan\IsFavoriteProducts\Hook\AbstractCacheableDisplayHook:

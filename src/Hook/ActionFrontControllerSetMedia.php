@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Oksydan\IsFavoriteProducts\Hook;
 
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
-use Oksydan\IsFavoriteProducts\Presenter\FavoriteProductJsonPresenter;
+use Oksydan\IsFavoriteProducts\Presenter\Front\FavoriteProductJsonPresenter;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
 class ActionFrontControllerSetMedia extends AbstractHook

@@ -19,7 +19,7 @@ services:
   Oksydan\IsFavoriteProducts\:
     resource: '../../src/*'
     exclude:
-      - '../../src/{DTO,Entity}'
+      - '../../src/{DTO,Entity,Form}'
       - '../../src/index.php'
       - '../../src/*/index.php'
 
@@ -27,7 +27,7 @@ services:
     public: true
     resource: '../../src/Hook/*'
     exclude:
-      - '../../src/Hook/{DisplayAdminCustomers.php,AbstractDisplayAdminHook.php}'
+      - '../../src/Hook/{DisplayAdminCustomers.php,AbstractDisplayAdminHook.php,ActionProductFormBuilderModifier.php}'
       - '../../src/Hook/index.php'
 
   Oksydan\IsFavoriteProducts\Services\FavoriteProductService:

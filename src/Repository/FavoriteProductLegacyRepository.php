@@ -134,4 +134,26 @@ class FavoriteProductLegacyRepository
 
         return (int) $qb->execute()->fetchOne();
     }
+
+
+    public function getFavoriteStatsForProduct(int $idProduct, $idShop = null): array
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        $qb
+            ->select('fp.id_product, fp.id_product_attribute')
+            ->from($this->table, 'fp')
+            ->where('fp.id_product = :id_product')
+            ->setParameter('id_product', $idProduct);
+
+        if ($idShop) {
+            $qb
+                ->andWhere('fp.id_shop = :id_shop')
+                ->setParameter('id_shop', $idShop);
+        }
+
+        $results = $qb->execute()->fetchAllAssociative();
+
+        return !empty($results) ? $results : [];
+    }
 }

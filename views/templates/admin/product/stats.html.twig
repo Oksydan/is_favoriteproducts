@@ -1,0 +1,27 @@
+{% if productStats is not empty %}
+  <h3>
+    {{ 'Favorite products stats for product'|trans({}, 'Modules.Isfavoriteproducts.Admin') }}
+  </h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'Name'|trans({}, 'Admin.Global') }}</th>
+        <th>{{ 'Product added to favorite'|trans({}, 'Admin.Global') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in productStats %}
+        <tr>
+          <td>
+            {{ product.name }}
+          </td>
+          <td>{{ product.total }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="alert alert-info">
+    {{ 'The product has not been added to favorites yet'|trans({}, 'Modules.Isfavoriteproducts.Admin') }}
+  </div>
+{% endif %}
