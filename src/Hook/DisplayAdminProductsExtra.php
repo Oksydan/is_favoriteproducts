@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
-use Oksydan\IsFavoriteProducts\Form\Modifier\ProductFormModifier;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 use Oksydan\IsFavoriteProducts\View\Admin\RenderAdminProductFavoriteStats;
 
 class DisplayAdminProductsExtra extends AbstractHook
 {
-
     /**
      * @var RenderAdminProductFavoriteStats
      */
@@ -27,8 +25,7 @@ class DisplayAdminProductsExtra extends AbstractHook
         \Context $context,
         FavoriteProductService $favoriteProductService,
         RenderAdminProductFavoriteStats $renderAdminProductFavoriteStats
-    )
-    {
+    ) {
         parent::__construct($module, $context, $favoriteProductService);
         $this->renderAdminProductFavoriteStats = $renderAdminProductFavoriteStats;
     }

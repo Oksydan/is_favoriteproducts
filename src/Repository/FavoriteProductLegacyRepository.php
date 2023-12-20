@@ -135,7 +135,6 @@ class FavoriteProductLegacyRepository
         return (int) $qb->execute()->fetchOne();
     }
 
-
     public function getFavoriteStatsForProduct(int $idProduct, $idShop = null): array
     {
         $qb = $this->connection->createQueryBuilder();

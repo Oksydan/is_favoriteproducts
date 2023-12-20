@@ -9,7 +9,6 @@ use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 
 class ActionProductFormBuilderModifier extends AbstractHook
 {
-
     /**
      * @var ProductFormModifier
      */
@@ -26,8 +25,7 @@ class ActionProductFormBuilderModifier extends AbstractHook
         \Context $context,
         FavoriteProductService $favoriteProductService,
         ProductFormModifier $productFormModifier
-    )
-    {
+    ) {
         parent::__construct($module, $context, $favoriteProductService);
         $this->productFormModifier = $productFormModifier;
     }

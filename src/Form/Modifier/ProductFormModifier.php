@@ -7,7 +7,6 @@ namespace Oksydan\IsFavoriteProducts\Form\Modifier;
 use Oksydan\IsFavoriteProducts\Form\Type\ProductFavoriteType;
 use Oksydan\IsFavoriteProducts\View\Admin\RenderAdminProductFavoriteStats;
 use PrestaShopBundle\Form\FormBuilderModifier;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class ProductFormModifier
@@ -41,7 +40,6 @@ class ProductFormModifier
         int $productId,
         FormBuilderInterface $productFormBuilder
     ): void {
-
         $this->formBuilderModifier->addAfter(
             $productFormBuilder,
             'options',
@@ -55,6 +53,5 @@ class ProductFormModifier
                 ],
             ]
         );
-
     }
 }

@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Form\Type;
 
-use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use PrestaShopBundle\Form\Admin\Type\CustomContentType;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
 use Symfony\Component\Form\FormBuilderInterface;
-
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductFavoriteType extends TranslatorAwareType
 {
