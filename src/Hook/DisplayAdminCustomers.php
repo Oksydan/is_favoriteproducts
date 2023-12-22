@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Hook;
 
-use Oksydan\IsFavoriteProducts\Presenter\AdminFavoriteProductPresenter;
+use Oksydan\IsFavoriteProducts\Presenter\Admin\AdminFavoriteProductPresenter;
 use Oksydan\IsFavoriteProducts\Provider\CustomerFavoriteProductsProvider;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 use PrestaShop\PrestaShop\Adapter\Validate;

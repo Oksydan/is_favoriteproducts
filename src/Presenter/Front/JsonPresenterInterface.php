@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oksydan\IsFavoriteProducts\Presenter;
+namespace Oksydan\IsFavoriteProducts\Presenter\Front;
 
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
 

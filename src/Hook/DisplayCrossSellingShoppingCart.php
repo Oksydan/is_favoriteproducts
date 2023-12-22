@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Oksydan\IsFavoriteProducts\Hook;
 
 use Oksydan\IsFavoriteProducts\DTO\FavoriteProduct;
-use Oksydan\IsFavoriteProducts\Presenter\FrontProductProductPresenter;
+use Oksydan\IsFavoriteProducts\Presenter\Front\FrontProductProductPresenter;
 use Oksydan\IsFavoriteProducts\Services\FavoriteProductService;
 use PrestaShop\PrestaShop\Adapter\Presenter\Product\ProductLazyArray;
 

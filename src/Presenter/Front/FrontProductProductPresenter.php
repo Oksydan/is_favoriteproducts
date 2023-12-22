@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oksydan\IsFavoriteProducts\Presenter;
+namespace Oksydan\IsFavoriteProducts\Presenter\Front;
 
 use PrestaShop\PrestaShop\Adapter\Presenter\Product\ProductLazyArray;
 

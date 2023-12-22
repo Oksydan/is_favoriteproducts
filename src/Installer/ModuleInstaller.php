@@ -15,6 +15,8 @@ class ModuleInstaller
         'displayCrossSellingShoppingCart',
         'actionCartSave',
         'displayAdminCustomers',
+        'actionProductFormBuilderModifier',
+        'displayAdminProductsExtra',
     ];
 
     private \Is_favoriteproducts $module;
