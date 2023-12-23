@@ -1,0 +1,5 @@
+is_favoriteproducts_controller_index:
+    path: /is_favoriteproducts/index
+    methods: [GET]
+    defaults:
+        _controller: 'Oksydan\IsFavoriteProducts\Controller\AdminFavoriteController::indexAction'

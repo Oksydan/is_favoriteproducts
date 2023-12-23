@@ -1,0 +1,11 @@
+{% set layoutTitle = 'title' %}
+
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+  {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': grid} %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}

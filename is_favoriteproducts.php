@@ -14,6 +14,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 use Oksydan\IsFavoriteProducts\Hook\HookInterface;
 use Oksydan\IsFavoriteProducts\Installer\ModuleInstaller;
+use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class Is_favoriteproducts extends Module
@@ -113,5 +114,10 @@ class Is_favoriteproducts extends Module
     public function _clearCache($template, $cache_id = null, $compile_id = null)
     {
         return parent::_clearCache($template, $cache_id, $compile_id);
+    }
+
+    public function getContent(): void
+    {
+        \Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_favoriteproducts_controller_index'));
     }
 }
