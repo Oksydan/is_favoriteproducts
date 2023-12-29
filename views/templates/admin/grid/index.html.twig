@@ -1,11 +1,34 @@
-{% set layoutTitle = 'title' %}
+{% set layoutTitle = title %}
 
 {% extends '@PrestaShop/Admin/layout.html.twig' %}
 
 {% block content %}
+  <div class="alert alert-info">
+    {{ 'Analytics data on favorite products from logged-in users. You can select a tab to filter them for a particular time period.'|trans({}, 'Modules.Isfavoriteproducts.Admin') }}
+  </div>
+
+
+  {% if tabs %}
+
+    <ul class="nav nav-pills nav-fill bg-white mb-3">
+      {% for tab in tabs %}
+        <li class="nav-item">
+          <a
+            class="nav-link {{ tab.active ? 'active' : '' }}"
+            href="{{ tab.url }}"
+          >
+            {{ tab.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  {% endif %}
+
   {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': grid} %}
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
+  <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
 {% endblock %}

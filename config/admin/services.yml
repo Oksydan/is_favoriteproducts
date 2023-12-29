@@ -33,3 +33,7 @@ services:
     resource: '../../src/Hook/*'
     exclude:
       - '../../src/Hook/index.php'
+
+  Oksydan\IsFavoriteProducts\Provider\DateFiltersProvider:
+    class: Oksydan\IsFavoriteProducts\Provider\DateFiltersProvider
+    public: true

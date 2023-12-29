@@ -59,14 +59,15 @@ final class FavoriteListQueryBuilder extends AbstractDoctrineQueryBuilder
         $qb = $this->getBaseQuery();
         $qb->select('fp.id_product, COUNT(fp.id_product) as count, pl.name');
 
+        // We need to sort it only by count
         $qb->orderBy(
             $searchCriteria->getOrderBy(),
-            $searchCriteria->getOrderWay()
+            'DESC',
         )
         ->setFirstResult($searchCriteria->getOffset())
         ->setMaxResults($searchCriteria->getLimit());
 
-        return $qb;
+        return $this->applyFilters($qb, $searchCriteria);
     }
 
     /**
@@ -77,9 +78,20 @@ final class FavoriteListQueryBuilder extends AbstractDoctrineQueryBuilder
     public function getCountQueryBuilder(SearchCriteriaInterface $searchCriteria): QueryBuilder
     {
         $qb = $this->getBaseQuery();
-        $qb->select('COUNT(fp.id_product)');
+        $qb->select('fp.id_product');
 
-        return $qb;
+        $qb = $this->applyFilters($qb, $searchCriteria);
+
+        $newQb = $this->connection->createQueryBuilder();
+
+        $newQb->select('COUNT(*)')
+            ->from(sprintf('(%s) as subquery', $qb->getSQL()));
+
+        foreach ($qb->getParameters() as $key => $parameter) {
+            $newQb->setParameter($key, $parameter);
+        }
+
+        return $newQb;
     }
 
     /**
@@ -108,6 +120,23 @@ final class FavoriteListQueryBuilder extends AbstractDoctrineQueryBuilder
         }
 
         $qb->groupBy('fp.id_product');
+
+        return $qb;
+    }
+
+    private function applyFilters(QueryBuilder $qb, SearchCriteriaInterface $searchCriteria): QueryBuilder
+    {
+        $filters = $searchCriteria->getFilters();
+        if (empty($filters)) {
+            return $qb;
+        }
+
+        foreach ($filters as $filterName => $filterValue) {
+            if ($filterName === 'date_add') {
+                $qb->andWhere('fp.date_add >= :date_add')
+                    ->setParameter('date_add', $filterValue->format('Y-m-d H:i:s'));
+            }
+        }
 
         return $qb;
     }

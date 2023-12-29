@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsFavoriteProducts\Grid\Definition\Factory;
 
-use Oksydan\IsFavoriteProducts\Grid\Action\SelectActionOption;
-use Oksydan\IsFavoriteProducts\Grid\Action\SelectActionOptionCollection;
-use Oksydan\IsFavoriteProducts\Grid\Action\TimePeriodSelectGridAction;
 use PrestaShop\PrestaShop\Core\Grid\Action\Bulk\BulkActionCollection;
 use PrestaShop\PrestaShop\Core\Grid\Action\GridActionCollection;
 use PrestaShop\PrestaShop\Core\Grid\Column\ColumnCollection;
