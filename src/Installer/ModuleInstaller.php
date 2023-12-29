@@ -6,7 +6,7 @@ namespace Oksydan\IsFavoriteProducts\Installer;
 
 class ModuleInstaller
 {
-    const HOOKS_LIST = [
+    public const HOOKS_LIST = [
         'displayTop',
         'actionFrontControllerSetMedia',
         'actionAuthentication',

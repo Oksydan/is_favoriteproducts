@@ -1,5 +1,6 @@
 imports:
   - { resource: ../common.yml }
+  - { resource: grid.yml }
 
 services:
   _defaults:
@@ -13,6 +14,8 @@ services:
       $cacheableHooksCollection: !tagged oksydan.is_favoriteproducts.cacheable_hook
       $formBuilderModifier: '@form.form_builder_modifier'
       $locales: '@=service("prestashop.adapter.legacy.context").getLanguages()'
+      $favoriteListDataFactory: '@oksydan.is_favoriteproducts.grid.data.factory.favorite_list_data_factory'
+      $contextAdapter: '@prestashop.adapter.shop.context'
 
   _instanceof:
     Oksydan\IsFavoriteProducts\Hook\AbstractCacheableDisplayHook:
@@ -21,7 +24,7 @@ services:
   Oksydan\IsFavoriteProducts\:
     resource: '../../src/*'
     exclude:
-      - '../../src/{DTO,Entity}'
+      - '../../src/{DTO,Entity,Controller}'
       - '../../src/index.php'
       - '../../src/*/index.php'
 
@@ -30,3 +33,7 @@ services:
     resource: '../../src/Hook/*'
     exclude:
       - '../../src/Hook/index.php'
+
+  Oksydan\IsFavoriteProducts\Provider\DateFiltersProvider:
+    class: Oksydan\IsFavoriteProducts\Provider\DateFiltersProvider
+    public: true
